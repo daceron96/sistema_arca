@@ -1,0 +1,74 @@
+{% extends 'core/base.html' %}
+{% load static%}
+{% block title%} Lista Productos {% endblock%}
+{%block content%}
+<!--encabezado-->
+<div class="row mb-4">
+	<div class="col-md-10">
+		<h1 class="text-center"><i class="bi bi-journal-bookmark-fill"></i> Lista de productos</h1>
+	</div>
+	<div class="col-md-2">
+		<a type="button" href="{% url 'product:create' %}" class="btn btn-outline-primary "><i
+				class="bi bi-file-earmark-plus"></i> Añadir Producto</a>
+	</div>
+</div>
+<!--Div formulario de busqueda producto-->
+<div class="row mb-3 ">
+	<div class="col-md-6">
+		<form action="">
+			<div class="input-group mb-3">
+				<input type="text" class="form-control" placeholder="Buscar producto" aria-label="Buscar producto"
+					aria-describedby="button-addon2">
+				<button class="btn btn-outline-primary" type="button"><i class="bi-search"></i> Buscar</button>
+			</div>
+		</form>
+	</div>
+	<div class="col-md-6">
+		<select class="form-select" aria-label="buscar categoria" id='filter_category'>
+			<option selected>Filtrar por categoria</option>
+			{% for category in  categorys %}
+			<option value={{category.id}}>{{category.name}}</option>
+
+			{% endfor %}
+		</select>
+	</div>
+</div>
+
+<!--Div tabla productos-->
+<div class="row">
+	<table class="table table-hover table-responsive">
+		<thead>
+			<tr>
+				<th scope="col">Código</th>
+				<th scope="col">Nombre</th>
+				<th scope="col">Precio de venta</th>
+				<th scope="col">Estado</th>
+				<th scope="col">Categoria</th>
+				<th scope="col">Accion</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for product in object_list %}
+			<tr>
+				<th scope="row">{{product.code}}</th>
+				<td>{{product.name}}</td>
+				<td>{{product.sale_price}}</td>
+				{% if product.status %}
+				<td> <span class="badge  bg-success">Activo</span></td>
+				{% else %}
+				<td><span class="badge bg-danger bg-block">Inactivo</span></td>
+				{% endif %}
+				<td>{{product.category.name}}</td>
+				<td>
+					<a href="#" class="btn btn-primary btn-sm"><i class="bi-search"></i> Ver</a>
+					<a href="#" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i> Editar</a>
+					<a href="#" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Eliminar</a>
+				</td>
+			</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+</div>
+
+{% endblock%}
