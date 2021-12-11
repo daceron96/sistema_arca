@@ -7,3 +7,6 @@ class HomePageView(TemplateView):
     
 class DeskListView(TemplateView):
     template_name = 'core/desk_list.html'
+    
+class AddOrderView(TemplateView):
+    template_name = 'core/add_order.html'
