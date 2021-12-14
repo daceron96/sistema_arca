@@ -1,11 +1,12 @@
 {% extends "core/base.html" %}
 {% block title %}Nueva orden {% endblock title %}
-
+{% load static%}
 {% block content%}
 <div class="row pb-3 border-4 border-bottom">
     <h1 class="text-center"><i class="bi bi-journal-plus"></i> Agregar nueva orden</h1>
 </div>
 <div class="row my-3">
+    <!--Lista de categorias-->
     <div class="col-lg-2 ">
         <div class="border-3 border-bottom">
             <h4 class="text-center"><i class="bi bi-journal-text"></i> Categorias</h4>
@@ -13,38 +14,154 @@
         <div class="list-group list-group-flush mt-2 border-2 border-bottom">
             <button type="button" class="list-group-item list-group-item-action">Asado</button>
             <button type="button" class="list-group-item list-group-item-action">Adiciones</button>
-            <button type="button" class="list-group-item list-group-item-action" >Bebidas</button>
+            <button type="button" class="list-group-item list-group-item-action">Bebidas</button>
             <button type="button" class="list-group-item list-group-item-action active">Hamburguesa</button>
             <button type="button" class="list-group-item list-group-item-action">Perro caliente</button>
             <button type="button" class="list-group-item list-group-item-action">Sandwich</button>
-           
+
         </div>
     </div>
-    <div class="col-lg-6 ">
+    <!--lista de productos-->
+    <div class="col-lg-5 ">
         <div class="border-3 border-bottom">
             <h4 class="text-center"><i class="bi bi-journal-text"></i> Productos</h4>
         </div>
         <div class="list-group list-group-flush mt-2 border-2 border-bottom">
-            <button type="button" class="list-group-item list-group-item-action"><b>1.</b> Hamburguesa sencilla</button>
-            <button type="button" class="list-group-item list-group-item-action"><b>2.</b> Hamburguesa con tocineta</button>
-            <button type="button" class="list-group-item list-group-item-action"><b>3.</b> Hamburguesa con pollo</button>
-            <button type="button" class="list-group-item list-group-item-action"><b>4.</b> Hamburguesa con pollo y tocineta</button>
-            <button type="button" class="list-group-item list-group-item-action"><b>5.</b> Hamburguesa con pollo y champiñones</button>
-            <button type="button" class="list-group-item list-group-item-action"><b>6.</b> Hamburguesa con pollo parilla</button>
-            <button type="button" class="list-group-item list-group-item-action"><b>7.</b> Hamburguesa con pollo parilla y tocineta</button>
+            <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="modal"
+                data-bs-target="#exampleModal"><b>1.</b> Hamburguesa sencilla</button>
+            <button type="button" class="list-group-item list-group-item-action"><b>2.</b> Hamburguesa con
+                tocineta</button>
+            <button type="button" class="list-group-item list-group-item-action"><b>3.</b> Hamburguesa con
+                pollo</button>
+            <button type="button" class="list-group-item list-group-item-action"><b>4.</b> Hamburguesa con pollo y
+                tocineta</button>
+            <button type="button" class="list-group-item list-group-item-action"><b>5.</b> Hamburguesa con pollo y
+                champiñones</button>
+            <button type="button" class="list-group-item list-group-item-action"><b>6.</b> Hamburguesa con pollo
+                parilla</button>
+            <button type="button" class="list-group-item list-group-item-action"><b>7.</b> Hamburguesa con pollo parilla
+                y tocineta</button>
             <button type="button" class="list-group-item list-group-item-action"><b>8.</b> Hamburguesa angus</button>
-            <button type="button" class="list-group-item list-group-item-action"><b>9.</b> Hamburguesa angus doble</button>
-            <button type="button" class="list-group-item list-group-item-action"><b>10.</b> Hamburguesa ranchera</button>
-            <button type="button" class="list-group-item list-group-item-action"><b>11.</b> Hamburguesa doble carne</button>
-            <button type="button" class="list-group-item list-group-item-action"><b>12.</b> Hamburguesa doble carne tocineta</button>
-            <button type="button" class="list-group-item list-group-item-action"><b>13.</b> Hamburguesa tocineta</button>
+            <button type="button" class="list-group-item list-group-item-action"><b>9.</b> Hamburguesa angus
+                doble</button>
+            <button type="button" class="list-group-item list-group-item-action"><b>10.</b> Hamburguesa
+                ranchera</button>
+            <button type="button" class="list-group-item list-group-item-action"><b>11.</b> Hamburguesa doble
+                carne</button>
+            <button type="button" class="list-group-item list-group-item-action"><b>12.</b> Hamburguesa doble carne
+                tocineta</button>
+            <button type="button" class="list-group-item list-group-item-action"><b>13.</b> Hamburguesa
+                tocineta</button>
         </div>
     </div>
-    <div class="col-lg-4  ">
+    <!--Pedido final-->
+    <div class="col-lg-5  ">
         <div class="border-3 border-bottom">
             <h4 class="text-center"><i class="bi bi-journal-text"></i> Pedido</h4>
+        </div>
+        <div class=" mt-2 border-2 border-bottom">
+            <ul class="list-group list-group-flush">
+                <button class="list-group-item d-flex justify-content-between align-items-center" data-bs-toggle="modal"
+                data-bs-target="#modal-item-add">
+                    Hamburguesa sencilla
+                    <span class="badge bg-primary rounded-pill px-4">2</span>
+                </button>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Hamburguesa pollo tocineta
+                    <span class="badge bg-primary rounded-pill px-4">1</span>
+                </li>
+                <button class="list-group-item d-flex justify-content-between align-items-center">
+                    Jugo hit 500 ml mora.
+                    <span class="badge bg-primary rounded-pill px-4">1</span>
+                </button>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Jugo hit 500 ml mango.
+                    <span class="badge bg-primary rounded-pill px-4">1</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Limonada de coco
+                    <span class="badge bg-primary rounded-pill px-4">1</span>
+                </li>
+                <li class="list-group-item text-center">
+                    <h5><b>Total: </b> $ 58.700</h5>
+                </li>
+                <a href="{% url 'core:desk_list' %}" type="button" class="btn btn-outline-primary"><i class="bi bi-send-plus-fill"></i> Enviar</a>
+            </ul>
         </div>
     </div>
 </div>
 
+
+<!--MODAL  agregar producto -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title " id="exampleModalLabel">Hamburguesa sencilla</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="container-fluid">
+                        <div class="row col-md-5 mx-auto">
+                            <h6 class="text-center">Cantidad</h6>
+                            <div class="input-group"  >
+                                <button class="btn btn-primary" type="button" id="btn_decrease_amount" disabled="True" onclick="decrease_amount()" ><i class="bi bi-dash-circle"></i></button>
+                                <input id="amount" type="number" min="0" class="form-control" placeholder="0" style="text-align: center">
+                                <button class="btn btn-primary" type="button" id="btn_increase_amount" onclick="increase_amount()"><i class="bi bi-plus-circle"></i></button>
+                            </div>
+                        </div> 
+                        <div class="form-floating mt-4">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" rows="5" style="height: initial;"></textarea>
+                            <label for="floatingTextarea">Comentarios</label>
+                        </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Añadir</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--MODAL  editar producto -->
+<div class="modal fade" id="modal-item-add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title " id="exampleModalLabel">Hamburguesa sencilla</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body ">
+                <div class="container-fluid">
+                        <div class="row col-md-5 mx-auto">
+                            <h6 class="text-center">Cantidad</h6>
+                            <div class="input-group"  >
+                                <button class="btn btn-primary" type="button" id="btn_decrease_amount" disabled="True" onclick="decrease_amount()" ><i class="bi bi-dash-circle"></i></button>
+                                <input id="amount" type="number" min="0" class="form-control" value="2" style="text-align: center">
+                                <button class="btn btn-primary" type="button" id="btn_increase_amount" onclick="increase_amount()"><i class="bi bi-plus-circle"></i></button>
+                            </div>
+                        </div> 
+                        <div class="form-floating mt-4">
+                            <textarea class="form-control text-start" placeholder="Leave a comment here" id="floatingTextarea" rows="5" style="height: initial;">
+                                1 sin salsas
+                                ambas sin cebolla
+                            </textarea>
+                            <label for="floatingTextarea">Comentarios</label>
+                        </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Añadir</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock%}
+
+{% block js%}
+<script src="{% static '/core/js/style.js' %}"></script>
+
+{% endblock %}
