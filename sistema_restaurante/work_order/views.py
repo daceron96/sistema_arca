@@ -1,6 +1,5 @@
-import json
 from django.http.response import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.core.serializers import serialize
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
@@ -13,19 +12,10 @@ class AddOrderView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.filter(status = True)
         return context
-    
-class prueba(TemplateView):
-    template_name = 'work_order/prueba.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.filter(status = True)
-        return context
 
-
-
-class peticion(ListView):
+#vista que obtiene la lista de productos de acuerdo al id de la categoria que se recibe
+class GetProductList(ListView):
     model = Product
-    
     def get_queryset(self):
         return self.model.objects.filter(category__pk = self.request.GET['id_category']) 
     
@@ -35,4 +25,4 @@ class peticion(ListView):
         else:
             return redirect('order:prueba')
         
-        #https://www.youtube.com/watch?v=nbSd0SuZrKs&ab_channel=Developer.pe
+       
