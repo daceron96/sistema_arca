@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from product.urls import product_patterns
 from core.urls import core_patterns
+from work_order.urls import work_order_patterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path core
@@ -24,5 +25,8 @@ urlpatterns = [
     
     #path product
     path('product/', include(product_patterns)),
+
+    #path work_order
+    path('order/', include(work_order_patterns)),
     
 ]

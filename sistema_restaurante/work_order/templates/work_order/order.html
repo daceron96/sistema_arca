@@ -12,13 +12,9 @@
 			<h4 class="text-center"><i class="bi bi-journal-text"></i> Categorias</h4>
 		</div>
 		<div class="list-group list-group-flush mt-2 border-2 border-bottom">
-			<button type="button" class="list-group-item list-group-item-action" onclick="list_product(1)">Asado</button>
-			<button type="button" class="list-group-item list-group-item-action">Adiciones</button>
-			<button type="button" class="list-group-item list-group-item-action">Bebidas</button>
-			<button type="button" class="list-group-item list-group-item-action" onclick="list_product(4)">Hamburguesa</button>
-			<button type="button" class="list-group-item list-group-item-action">Perro caliente</button>
-			<button type="button" class="list-group-item list-group-item-action">Sandwich</button>
-
+			{% for category in categories %}
+			<button type="button" id="btn_categories_list_{{category.id}}" class="list-group-item list-group-item-action" onclick="list_product({{category.id}})"><b>{{category.name}}</b></button>
+			{% endfor %}
 		</div>
 	</div>
 	<!--lista de productos-->
@@ -26,24 +22,24 @@
 		<div class="border-3 border-bottom">
 			<h4 class="text-center"><i class="bi bi-journal-text"></i> Productos</h4>
 		</div>
-		<div class="list-group list-group-flush mt-2 border-2 border-bottom" id="list_product">
-				</div>
+		<div class="list-group list-group-flush mt-2 " id="list_product">
+		</div>
 	</div>
 	<!--Pedido final-->
 	<div class="col-lg-5 py-3">
 		<div class="border-3 border-bottom">
 			<h4 class="text-center"><i class="bi bi-journal-text"></i> Pedido</h4>
 		</div>
-		<div class=" mt-2 border-2 border-bottom" >
-			<ul class="list-group list-group-flush border-2 border-bottom" id="product_list">
+		<div class=" mt-2" >
+			<ul class="list-group list-group-flush " id="product_list">
 				
 			</ul>
-			<ul class="list-group list-group-flush" id="product_list">
-
+			<ul class="list-group list-group-flush pt-3" id="product_list">
+				<!--
 				<li class="list-group-item text-center">
 				   <h5><b>Total: </b> $ 58.700</h5>
-				</li>
-				<a href="{% url 'core:desk_list' %}" type="button" class="btn btn-outline-primary"><i class="bi bi-send-plus-fill"></i> Enviar</a>
+				</li>-->
+				<a href="{% url 'core:desk_list' %}" type="button" class="btn btn-outline-primary disabled visually-hidden"><i class="bi bi-send-plus-fill"></i> Enviar</a>
 			</ul>
 		</div>
 	</div>

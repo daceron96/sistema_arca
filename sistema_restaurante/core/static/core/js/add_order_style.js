@@ -40,7 +40,6 @@ function add_product_list(id_product){
 
 }
 function list_product(id){
-
     $('#list_product').empty();
     if(id == 1){
         $('#list_product').append(
@@ -54,6 +53,8 @@ function list_product(id){
             + "<button type='button' class='list-group-item list-group-item-action' id='product_8'  data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='complete_modal('8')'><b>8. </b>Plato mixto (Res - Pollo)</button>"
             + "<button type='button' class='list-group-item list-group-item-action' id='product_9'  data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='complete_modal('9')'><b>9. </b>Plato mixto (Cerdo - Pollo)</button>"
         );
+        $('#btn_categories_list_'+id).addClass('active');
+        console.log($('#btn_categories_list_'+id))
     }
     if(id == 4){
         $('#list_product').append(
