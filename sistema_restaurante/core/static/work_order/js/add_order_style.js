@@ -68,9 +68,20 @@ function complete_add_modal(code_product){
     for(let i=0; i < query_data.length; i++){
         if(query_data[i]['fields']['code'] == code_product){
             $('#name_product').text(query_data[i]['fields']['name']);
+            $('#btn_add_product').click(add_order_detail(query_data[i]));
             console.log(query_data[i])
             break;
         }
     }
 }
 
+/*Funcion que añade dinamicamente un producto a la lista final de pedido */
+function add_order_detail(product){
+    quantity = $('#quantity').val();
+    $("#product_list").append(
+        "<button class='list-group-item d-flex justify-content-between align-items-center' data-bs-toggle='modal'data-bs-target='#modal-item-add'>"
+        + product['fileds']['name']
+        + "<span class='badge bg-primary rounded-pill px-4'>"+quantity+"</span>"
+        + "</button>"
+    );
+}
