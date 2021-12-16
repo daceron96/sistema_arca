@@ -1,5 +1,5 @@
 let query_data = []
-
+let detail_order = []
 /*Funcionalidad de disminuir la cantidad de productos a agregar en la lista final */
 function decrease_quantity(){
     let quantity = parseInt($('#quantity').val());
@@ -29,21 +29,9 @@ function increase_quantity(){
     }
     if($('#btn_add_product').is(':disabled') && $('#quantity').val() == 1){
         $('#btn_add_product').prop('disabled',false);
-        console.log('entre')
     }
 }
-/*Funcion que añade dinamicamente un producto a la lista final de pedido */
-function add_product_list(id_product){
 
-    quantity = $('#quantity').val();
-    $("#product_list").append(
-        "<button class='list-group-item d-flex justify-content-between align-items-center' data-bs-toggle='modal'data-bs-target='#modal-item-add'>"
-        + "Hamburguesa sencilla"
-        + "<span class='badge bg-primary rounded-pill px-4'>"+quantity+"</span>"
-        + "</button>"
-    );
-
-}
 /**funcion buscar lista de productos por categoria */
 function list_product(id_category){
     /**vacia el div de lista de productos */
@@ -63,7 +51,7 @@ function list_product(id_category){
         success: function(data){
             if(data.length != 0){
                 for(let i=0; i < data.length; i++){
-                    let item ="<button type='button' class='list-group-item list-group-item-action' id='product_"+data[i]["fields"]["id"]+"' data-bs-toggle='modal' data-bs-target='#modal_add_product' onclick='complete_add_modal('"+data[i]["fields"]["id"] +"')'><b>"+(i+1)+ ". </b>"+data[i]["fields"]["name"] +"</button>"
+                    let item ="<button type='button' class='list-group-item list-group-item-action' id='product_"+data[i]["fields"]["code"]+"' data-bs-toggle='modal' data-bs-target='#modal_add_product' onclick=complete_add_modal("+data[i]["fields"]["code"] +")><b>"+(i+1)+ ". </b>"+data[i]["fields"]["name"] +"</button>"
                     $('#list_product').append(item)
                 }
             }else{
@@ -74,5 +62,15 @@ function list_product(id_category){
             query_data  = data;
         }
     })
+}
+/*Cambia dinamicamnete el contenido del modal que añade el detalle de pedido */
+function complete_add_modal(code_product){
+    for(let i=0; i < query_data.length; i++){
+        if(query_data[i]['fields']['code'] == code_product){
+            $('#name_product').text(query_data[i]['fields']['name']);
+            console.log(query_data[i])
+            break;
+        }
+    }
 }
 
