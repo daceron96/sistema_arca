@@ -22,7 +22,9 @@
 		<div class="border-3 border-bottom">
 			<h4 class="text-center"><i class="bi bi-journal-text"></i> Productos</h4>
 		</div>
-		<div class="list-group list-group-flush mt-2 " id="list_product">
+		<div class=" mt-2" >
+			<ul class="list-group list-group-flush" id="list_product">
+			</ul>
 		</div>
 	</div>
 	<!--Pedido final-->
@@ -30,11 +32,11 @@
 		<div class="border-3 border-bottom">
 			<h4 class="text-center"><i class="bi bi-journal-text"></i> Pedido</h4>
 		</div>
-		<div class=" mt-2" >
-			<ul class="list-group list-group-flush " id="product_list">
+		<div class=" mt-2">
+			<ul class="list-group list-group-flush " id="detail_list">
 				
 			</ul>
-			<ul class="list-group list-group-flush pt-3" id="product_list">
+			<ul class="list-group list-group-flush pt-3" id="">
 				<!--
 				<li class="list-group-item text-center">
 				   <h5><b>Total: </b> $ 58.700</h5>
@@ -73,7 +75,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-primary" id="btn_add_product" data-bs-dismiss="modal" disabled>Añadir</button>
+				<button type="button" class="btn btn-primary" id="btn_add_product" onclick="add_order_detail()" data-bs-dismiss="modal" disabled>Añadir</button>
 			</div>
 		</div>
 	</div>
