@@ -55,19 +55,21 @@ function list_product(id_category){
             if(data.length != 0){
                 for(let i=0; i < data.length; i++){
                     let item ="<button " 
-                    +"class='list-group-item d-flex justify-content-between align-items-center' "
+                    +"class='list-group-item list-group-item-action' "
                     +"id='product_"+data[i]["fields"]["code"]+"' "
                     +"data-bs-toggle='modal' data-bs-target='#modal_add_product' "
                     +"onclick=complete_add_modal("+data[i]["fields"]["code"] +")>"
-                    +data[i]["fields"]["name"]
-                    +"<span class='badge bg-primary rounded-pill px-2'>$ "+data[i]['fields']['sale_price']+"</span>"
-                    +"</button>"
+                    +"<b> "+(i+1)+". </b>"+data[i]["fields"]["name"]
+                    +"</button>" 
                     $('#list_product').append(item)
+                    $('#list_product').addClass('border-2 border-bottom')
+
                 }
             }else{
                 $('#list_product').append("<h2 class='text-center '><b>No existe ningun producto para esta categoria</b></h2>")
             }
             $('#btn_categories_list_'+id_category).addClass('active');
+
             query_data = data;
         }
     })
@@ -93,6 +95,14 @@ function add_order_detail(){
         + "<span class='badge bg-primary rounded-pill px-4'>"+quantity+"</span>"
         + "</button>"
     );
+    //crear el dicionario de cantidad de producto y dcomentario
+    let dic =[{
+        quantity_product : quantity,
+        description : $('#order_comment').val()
+    }]
+    Object.defineProperty(product, 'description_detail_order',{
+        value : dic
+    });
     detail_order.push(product)
     product = []
     $('#quantity').val('');
