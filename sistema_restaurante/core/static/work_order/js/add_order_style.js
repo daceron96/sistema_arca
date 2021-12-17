@@ -1,6 +1,8 @@
 let detail_order = []
 let product = []
 let query_data = []
+
+
 /*Funcionalidad de disminuir la cantidad de productos a agregar en la lista final */
 function decrease_quantity(){
     let quantity = parseInt($('#quantity').val());
@@ -16,6 +18,8 @@ function decrease_quantity(){
 /*Funcionalidad de aumentar la cantidad de productos a agregar en la lista final */
 
 function increase_quantity(){
+    
+    
     let quantity = 0
     if($('#quantity').val() == ""){
         quantity = 0
@@ -23,8 +27,8 @@ function increase_quantity(){
         quantity = parseInt($('#quantity').val());
     }
 
-    quantity = quantity + 1
-    $('#quantity').val(quantity);
+    $('#quantity').val(quantity +1 );
+   
     if(quantity > 0 && $('#btn_decrease_quantity').is(':disabled')){
         $('#btn_decrease_quantity').prop("disabled",false);
     }
@@ -78,6 +82,9 @@ function list_product(id_category){
 function complete_add_modal(code_product){
     for(let i=0; i < query_data.length; i++){
         if(query_data[i]['fields']['code'] == code_product){
+            $('#btn_decrease_quantity').prop('disabled',true)
+            $('#quantity').val('');
+            $('#order_comment').val('');
             $('#name_product').text(query_data[i]['fields']['name']);
             product = query_data[i]['fields']
             break;
@@ -90,7 +97,7 @@ function complete_add_modal(code_product){
 function add_order_detail(){
     quantity = $('#quantity').val();
     $("#detail_list").append(
-        "<button class='list-group-item d-flex justify-content-between align-items-center' data-bs-toggle='modal'data-bs-target='#modal-item-add'>"
+        "<button class='list-group-item d-flex justify-content-between align-items-center' id='product_detail_"+product['code'] +"' onclick='edit_detail_order("+product['code'] +")' data-bs-toggle='modal' data-bs-target='#modal_add_product'>"
         + product['name']
         + "<span class='badge bg-primary rounded-pill px-4'>"+quantity+"</span>"
         + "</button>"
@@ -100,13 +107,35 @@ function add_order_detail(){
         quantity_product : quantity,
         description : $('#order_comment').val()
     }]
-    Object.defineProperty(product, 'description_detail_order',{
-        value : dic
+    Object.defineProperty(product, 'detail_description',{
+        value :  $('#order_comment').val()
+    });
+    Object.defineProperty(product, 'quantity_product',{
+        value :  quantity
     });
     detail_order.push(product)
     product = []
     $('#quantity').val('');
+    $('#order_comment').val('');
     $('#btn_add_product').prop('disabled',true);
     $('#btn_decrease_quantity').prop("disabled",true);
+
+}
+
+/** Funcion editar detalle de orden */
+function edit_detail_order(code_product){
+
+    for(let i=0; i < detail_order.length; i++){
+        if(detail_order[i]['code'] == code_product){
+            $('#name_product').text(detail_order[i]['name']);
+            $('#quantity').val(detail_order[i]['quantity_product'])
+            $('#order_comment').val(detail_order[i]['detail_description']);
+            $('#btn_add_product').prop('disabled',false);
+            $('#btn_decrease_quantity').prop('disabled',false);
+            break;
+        }
+    }
+
+    
 
 }

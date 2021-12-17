@@ -47,7 +47,6 @@
 	</div>
 </div>
 
-
 <!--MODAL  agregar producto -->
 <div class="modal fade" id="modal_add_product" tabindex="-1" aria-labelledby="modal_add_product_Label" aria-hidden="true">
 	<div class="modal-dialog ">
@@ -61,8 +60,8 @@
 						<div class="row col-md-5 mx-auto">
 							<h6 class="text-center">Cantidad</h6>
 							<div class="input-group"  >
-								<button class="btn btn-primary" type="button" id="btn_decrease_quantity" disabled="True" onclick="decrease_quantity()" ><i class="bi bi-dash-circle"></i></button>
-								<input id="quantity" type="number" id="quantity" min="0" class="form-control" placeholder="0" style="text-align: center">
+								<button class="btn btn-primary" type="button" id="btn_decrease_quantity"onclick="decrease_quantity()" ><i class="bi bi-dash-circle"></i></button>
+								<input id="quantity" type="number" id="quantity" min="0" class="form-control" placeholder="0" style="text-align: center" disabled>
 								<button class="btn btn-primary" type="button" id="btn_increase_quantity" onclick="increase_quantity()"><i class="bi bi-plus-circle"></i></button>
 							</div>
 						</div> 
@@ -80,38 +79,7 @@
 		</div>
 	</div>
 </div>
-<!--MODAL  editar producto -->
-<div class="modal fade" id="modal-item-add" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog ">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title " id="exampleModalLabel">Hamburguesa sencilla</h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body ">
-				<div class="container-fluid">
-						<div class="row col-md-5 mx-auto">
-							<h6 class="text-center">Cantidad</h6>
-							<div class="input-group"  >
-								<button class="btn btn-primary" type="button" id="btn_decrease_quantity" disabled="True" onclick="decrease_quantity()" ><i class="bi bi-dash-circle"></i></button>
-								<input  type="number" min="0" class="form-control" value="2" style="text-align: center">
-								<button class="btn btn-primary" type="button" id="btn_increase_quantity" onclick="increase_quantity()"><i class="bi bi-plus-circle"></i></button>
-							</div>
-						</div> 
-						<div class="form-floating mt-4">
-							<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea" rows="5" style="height: initial;">1 sin cebolla ambas sin sala de tomate</textarea>
-							<label for="floatingTextarea">Comentarios</label>
-						</div>
-				</div>
 
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-primary" data-bs-dismiss="modal" >Añadir</button>
-			</div>
-		</div>
-	</div>
-</div>
 {% endblock%}
 
 {% block js%}
