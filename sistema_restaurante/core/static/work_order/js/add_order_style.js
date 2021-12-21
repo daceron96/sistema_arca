@@ -1,4 +1,5 @@
 let detail_order = []
+detail_order.total_price = 0
 let product = []
 let query_data = []
 
@@ -96,6 +97,7 @@ function complete_add_modal(code_product){
 
 /*Funcion que añade dinamicamente un producto a la lista final de pedido */
 function add_order_detail(){
+    let total_price = parseInt(($('#total_price').text()))
     quantity = $('#quantity').val();
     $("#detail_list").append(
         "<button class='list-group-item d-flex justify-content-between align-items-center' id='product_detail_"+product['code'] +"' onclick='complete_edit_modal("+product['code'] +")' data-bs-toggle='modal' data-bs-target='#modal_add_product'>"
@@ -106,11 +108,13 @@ function add_order_detail(){
     product.comment = $('#order_comment').val()
     product.quantity_product = quantity
     detail_order.push(product)
+    detail_order.total_price = detail_order.total_price + (quantity * parseInt(product['sale_price']))
     product = []
+    $('#total_price').empty().append("<h6><b>Total: </b>"+detail_order.total_price+"</h6>")
+    $('#footer_order_list').removeClass('visually-hidden')
     $('#quantity').val('');
     $('#order_comment').val('');
     $('#btn_modal_product').prop('disabled',true).removeAttr('onclick');
-    console.log(detail_order)
     
 }
 
@@ -129,17 +133,19 @@ function complete_edit_modal(code_product){
             break;
         }
     }
-    console.log('ANTES DE ELIMNAR')
-    console.log(detail_order)
+
 }
 /**Funcion que edita la lista de detalle de orden en sus parametros cantidad y comentarios */
 function edit_order_detail(indice){
     detail_order[indice]['quantity_product'] = $('#quantity').val()
     detail_order[indice]['comment'] = $('#order_comment').val()
+    $('#btn_modal_product').prop('disabled',true)
     $('#quantity_span_'+detail_order[indice]['code']).text($('#quantity').val())
 }
 
 function del_order_detail(indice){
-    detail_order.splice(indice,indice)
     $('#product_detail_'+detail_order[indice]['code']).remove()
+    detail_order.splice(indice,1)
+    console.log(detail_order)
+    
 }
