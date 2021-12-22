@@ -92,7 +92,9 @@ function complete_add_modal(code_product){
             break;
         }
     }
-   
+    $('#btn_modal_product').prop('disabled',true)
+    $('#btn_del_product').addClass('visually-hidden').prop('disabled',true);
+    
 }
 
 /*Funcion que añade dinamicamente un producto a la lista final de pedido */
@@ -137,15 +139,25 @@ function complete_edit_modal(code_product){
 }
 /**Funcion que edita la lista de detalle de orden en sus parametros cantidad y comentarios */
 function edit_order_detail(indice){
+    let quantity_product = parseInt($('#quantity').val())
+    if(quantity_product != detail_order[indice]['quantity_product']){
+        detail_order.total_price = detail_order.total_price - (parseInt(detail_order[indice]['sale_price']) * parseInt(detail_order[indice]['quantity_product']))
+        detail_order.total_price = detail_order.total_price + (parseInt(quantity_product) * detail_order[indice]['sale_price'])
+    }
     detail_order[indice]['quantity_product'] = $('#quantity').val()
     detail_order[indice]['comment'] = $('#order_comment').val()
     $('#btn_modal_product').prop('disabled',true)
     $('#quantity_span_'+detail_order[indice]['code']).text($('#quantity').val())
+    $('#total_price').empty().append("<h6><b>Total: </b>"+detail_order.total_price+"</h6>")
+    
 }
 
 function del_order_detail(indice){
     $('#product_detail_'+detail_order[indice]['code']).remove()
+    detail_order.total_price = detail_order.total_price - parseInt(detail_order[indice]['sale_price']) * parseInt(detail_order[indice]['quantity_product'])
     detail_order.splice(indice,1)
-    console.log(detail_order)
-    
+    $('#total_price').empty().append("<h6><b>Total: </b>"+detail_order.total_price+"</h6>")
+    if(detail_order.length == 0){
+        $('#footer_order_list').addClass('visually-hidden');
+    }
 }
