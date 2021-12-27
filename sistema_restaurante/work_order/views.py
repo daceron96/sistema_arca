@@ -25,4 +25,4 @@ class GetProductList(ListView):
         else:
             return redirect('order:prueba')
         
-       
+        
