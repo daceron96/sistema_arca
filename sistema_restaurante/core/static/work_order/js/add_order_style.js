@@ -52,7 +52,7 @@ function list_product(id_category){
     })
     /**realiza la peticion ajax */
     $.ajax({
-        url: '/order/get-products/',
+        url: '/order/get-product/',
         type: 'GET',
         data: {'id_category':id_category},
         dataType: 'json',
@@ -151,7 +151,7 @@ function edit_order_detail(indice){
     $('#total_price').empty().append("<h6><b>Total: </b>"+detail_order.total_price+"</h6>")
     
 }
-
+/*Eliminar detalle de producto en la lista de pedido*/
 function del_order_detail(indice){
     $('#product_detail_'+detail_order[indice]['code']).remove()
     detail_order.total_price = detail_order.total_price - parseInt(detail_order[indice]['sale_price']) * parseInt(detail_order[indice]['quantity_product'])
@@ -160,4 +160,21 @@ function del_order_detail(indice){
     if(detail_order.length == 0){
         $('#footer_order_list').addClass('visually-hidden');
     }
+}
+
+function add_order(){
+    $.ajax({
+        
+        data : {'data' : JSON.stringify(detail_order)},
+        url: '/order/add-order',
+        type : 'GET',
+        
+        success: function(response){
+            console.log(response)
+        },
+        error: function(error){
+
+        }
+
+    });
 }
