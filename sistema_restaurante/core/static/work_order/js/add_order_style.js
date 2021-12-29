@@ -169,11 +169,8 @@ function add_order(){
         url: '/order/add-order',
         type : 'GET',
         
-        success: function(response){
-            console.log(response)
-        },
-        error: function(error){
-
+        success: function(){
+            window.location =  "/desk-list"
         }
 
     });

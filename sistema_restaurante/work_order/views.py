@@ -1,14 +1,13 @@
 import json
-from django.http import request
-from django.http import response
-from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import redirect
+from django.http.response import HttpResponse
+from django.shortcuts import redirect, render
 from django.core.serializers import serialize
-from django.views import View
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
-from .models import Order
+from .models import Order, Order_detail
 from product.models import Category, Product
+from django.urls import reverse_lazy
+
 
 class AddOrderView(TemplateView):
     template_name ='work_order/order.html'
@@ -26,21 +25,22 @@ class GetProductList(ListView):
     def get(self,request,*args,**kwargs):
         if request.is_ajax():
             return HttpResponse(serialize('json',self.get_queryset()), 'application/json')
-        else:
-            return redirect('order:prueba')
         
-class CreateOrder(View):
-   
-    def get(self,request,*args,**kwargs): 
-        if request.is_ajax():
-            data = request.GET['data']
-            array_list = json.loads(data)
-            for p in array_list:
-                print(p['name'])
-            
-            mensaje = 'succes'
-            error = 'error'
-            response = JsonResponse({'mensaje':mensaje,'error':error})
-            response.status_code = 201
-            return response
-            
+        
+def CreateOrder(request):
+    if request.is_ajax():
+        total_price = 0
+        array_detail = json.loads(request.GET['data'])
+        new_order = Order.objects.create()
+        for detail in array_detail:
+            total_price = total_price + (int(detail['quantity_product']) * int(detail['sale_price']) )
+            Order_detail.objects.create(
+                order = new_order,
+                product = Product.objects.get(code = int(detail['code'])),
+                quantity_product = int(detail['quantity_product']),
+                comment = detail['comment']
+            )
+        new_order.total_price = total_price
+        new_order.save()
+	
+    return redirect(reverse_lazy('core:desk_list'))
