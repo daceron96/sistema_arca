@@ -99,7 +99,6 @@ function complete_add_modal(code_product){
 
 /*Funcion que añade dinamicamente un producto a la lista final de pedido */
 function add_order_detail(){
-    let total_price = parseInt(($('#total_price').text()))
     quantity = $('#quantity').val();
     $("#detail_list").append(
         "<button class='list-group-item d-flex justify-content-between align-items-center' id='product_detail_"+product['code'] +"' onclick='complete_edit_modal("+product['code'] +")' data-bs-toggle='modal' data-bs-target='#modal_add_product'>"
@@ -162,16 +161,19 @@ function del_order_detail(indice){
     }
 }
 
-function add_order(){
+function add_order(table){
     $.ajax({
         
-        data : {'data' : JSON.stringify(detail_order)},
+        data : {'data' : JSON.stringify(detail_order),
+                'table':table, 
+            },
         url: '/order/add-order',
         type : 'GET',
         
         success: function(){
-            window.location =  "/desk-list"
+            window.location =  "/order/table-list"
         }
 
     });
 }
+

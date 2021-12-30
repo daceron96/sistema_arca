@@ -6,10 +6,6 @@ from work_order.models import Order
 
 class HomePageView(TemplateView):
     template_name = 'core/home.html'
-    
-class DeskListView(TemplateView):
-    template_name = 'core/desk_list.html'
-
 
 class ListOrderView(ListView):
     model = Order
