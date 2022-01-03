@@ -11,7 +11,7 @@ class ProductForm(forms.ModelForm):
             'code' : forms.NumberInput(attrs={'class': 'form-control','placeholder':'Codigo del producto'},),
             'name' : forms.TextInput(attrs={'class': 'form-control','placeholder':'Nombre del producto'}, ),
             'sale_price' : forms.NumberInput(attrs={'class': 'form-control','placeholder':'Precio de venta'}, ),
-            'description' : forms.Textarea(attrs={'class': 'form-control','placeholder':'Descripcion de ingredientes'}, ),
+            'description' : forms.Textarea(attrs={'class': 'form-control','placeholder':'Descripcion de ingredientes', 'rows':'3' }, ),
             'category' : forms.Select(attrs={'class': 'form-select'}, ),
         }
         

@@ -35,8 +35,7 @@ def CreateOrder(request):
     if request.is_ajax():
         total_price = 0
         array_detail = json.loads(request.GET['data'])
-        table = Table.objects.get(table_number = int(request.GET['table']))
-        new_order = Order.objects.create(table = table)
+        new_order = Order.objects.create(table = Table.objects.get(table_number = int(request.GET['table'])))
         for detail in array_detail:
             total_price = total_price + (int(detail['quantity_product']) * int(detail['sale_price']) )
             Order_detail.objects.create(
@@ -45,10 +44,8 @@ def CreateOrder(request):
                 quantity_product = int(detail['quantity_product']),
                 comment = detail['comment']
             )
-        new_order.total_price = total_price
-        new_order.save()
-        table.status = True
-        table.save()
+        Order.objects.filter(pk=new_order.pk).update(total_price=total_price)
+        Table.objects.filter(pk=new_order.table.pk).update(status=True)
 	
     return redirect(reverse_lazy('order:table_list'))
 
