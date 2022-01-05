@@ -13,9 +13,9 @@ function create_product(){
                 +"<td> <span class='badge  bg-success'>Activo</span></td>"
                 +"<td>"+response['category']+"</td>"
                 +"<td>"
-					+"<a href='#' class='btn btn-primary btn-sm'><i class='bi-search'></i> Ver</a>"
-					+"<a href='#' class='btn btn-warning btn-sm'><i class='bi bi-pencil'></i> Editar</a>"
-					+"<a href='#' class='btn btn-danger btn-sm'><i class='bi bi-trash'></i> Eliminar</a>"
+					+"<a href='#' class='btn btn-primary btn-sm'><i class='bi-search'></i> Ver </a>"
+					+"<a href='#' class='btn btn-warning btn-sm'><i class='bi bi-pencil'></i> Editar </a>"
+					+"<a href='#' class='btn btn-danger btn-sm'><i class='bi bi-trash'></i> Eliminar </a>"
 				+"</td>"
             )
         },

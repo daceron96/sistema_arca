@@ -1,7 +1,7 @@
 from django.core.serializers import serialize
 from django.http.response import HttpResponse
 from django.shortcuts import redirect
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView
 from django.views.generic.list import ListView
 from .models import Product, Category
 from .forms import ProductForm
@@ -13,7 +13,7 @@ from django.http import JsonResponse
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    def post(self,*args, **kwargs):
+    def post(self):
         if self.request.is_ajax():
             form = self.form_class(self.request.POST)
             if form.is_valid():
@@ -39,6 +39,7 @@ class ProductCreateView(CreateView):
                 response = JsonResponse({'mensaje':mensaje, 'error':error})
                 response.status_code = 400
                 return response
+    
 
 class ProductListView(ListView):
     model = Product
