@@ -13,7 +13,7 @@ from django.http import JsonResponse
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    def post(self):
+    def post(self,  *args, **kwargs):
         if self.request.is_ajax():
             form = self.form_class(self.request.POST)
             if form.is_valid():
@@ -34,9 +34,8 @@ class ProductCreateView(CreateView):
                 return response
             
             else:
-                mensaje = f'{self.model.__name__} no se ha podido registrar correctamente'
                 error = form.errors
-                response = JsonResponse({'mensaje':mensaje, 'error':error})
+                response = JsonResponse({'error':error })
                 response.status_code = 400
                 return response
     
@@ -44,10 +43,13 @@ class ProductCreateView(CreateView):
 class ProductListView(ListView):
     model = Product
     def get_context_data(self, **kwargs):
+        print(self.request.GET.get('form'))
+
         context = super().get_context_data(**kwargs)
         context['categorys'] = Category.objects.filter(status = True)
         context['form'] = ProductForm
         return context 
+                
     
 def filter_product_by_category(request, pk):
     json_response = {'filter':False}

@@ -15,7 +15,7 @@ class Category(models.Model):
         return self.name
     
 class Product(models.Model):
-    code = models.IntegerField(unique=True, verbose_name='codigo')
+    code = models.IntegerField(unique=True)
     name = models.CharField(max_length=100)
     sale_price = models.IntegerField()
     category = models.ForeignKey(Category,on_delete=CASCADE)

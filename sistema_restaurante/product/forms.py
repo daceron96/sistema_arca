@@ -3,7 +3,6 @@ from django.forms import widgets
 from .models import Product, Category
 
 class ProductForm(forms.ModelForm):
-    
     class Meta:
         model = Product
         fields = ['code','name', 'sale_price', 'description','category']
@@ -21,5 +20,10 @@ class ProductForm(forms.ModelForm):
             'sale_price' : 'Precio',
             'description' : 'Descripción',
             'category' : 'Categoria',
+        }
             
+        error_messages = {
+            'code': {
+                'unique': "Ya existe un producto registrado con este mismo código.",
+            },
         }

@@ -1,118 +1,113 @@
-{% extends 'core/base.html' %}
-{% load static%}
-{% block title%} Lista Productos {% endblock%}
-{%block content%}
+{% extends 'core/base.html' %} {% load static%} {% block title%} Lista Productos {% endblock%} {%block content%}
 <!--encabezado-->
 <div class="row mb-4">
-	<div class="col-md-10">
-		<h1 class="text-center"><i class="bi bi-journal-bookmark-fill"></i> Lista de productos</h1>
-	</div>
-	<div class="col-md-2">
-		<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_product">
+    <div class="col-md-10">
+        <h1 class="text-center"><i class="bi bi-journal-bookmark-fill"></i> Lista de productos</h1>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_product">
 			<i class="bi bi-file-earmark-plus"></i>
 			Añadir Producto
 		</button>
 
-	</div>
+    </div>
 </div>
 <!--Div formulario de busqueda producto-->
 <div class="row mb-3 ">
-	<div class="col-md-6">
-		<form action="">
-			<div class="input-group mb-3">
-				<input type="text" class="form-control" placeholder="Buscar producto" aria-label="Buscar producto"
-					aria-describedby="button-addon2">
-				<button class="btn btn-outline-primary" type="button"><i class="bi-search"></i> Buscar</button>
-			</div>
-		</form>
-	</div>
-	<div class="col-md-6">
-		<select class="form-select" aria-label="buscar categoria" id='filter_category'>
-			<option selected>Filtrar por categoria</option>
-			{% for category in  categorys %}
-			<option value={{category.id}}>{{category.name}}</option>
+    <div class="col-md-6">
+        <form action="">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Buscar producto" aria-label="Buscar producto" aria-describedby="button-addon2">
+                <button class="btn btn-outline-primary" type="button"><i class="bi-search"></i> Buscar</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <form  action="{% url 'product:list_products'%}" method="GET">
+			<select class="form-select" aria-label="buscar categoria" id='filter_category' onchange="this.form.submit()">
+				<option selected>Filtrar por categoria</option>
+				{% for category in categorys %}
+				<option value={{category.id}}>{{category.name}}</option>
 
-			{% endfor %}
-		</select>
-	</div>
+				{% endfor %}
+			</select>
+        </form>
+    </div>
 </div>
 
 <!--Div tabla productos-->
-<div class="row">
-	<table class="table table-hover table-responsive">
-		<thead>
-			<tr>
-				<th scope="col">Código</th>
-				<th scope="col">Nombre</th>
-				<th scope="col">Precio de venta</th>
-				<th scope="col">Estado</th>
-				<th scope="col">Categoria</th>
-				<th scope="col">Accion</th>
-			</tr>
-		</thead>
-		<tbody id='body_table'>
-			{% for product in object_list %}
-			<tr>
-				<th scope="row">{{product.code}}</th>
-				<td>{{product.name}}</td>
-				<td>{{product.sale_price}}</td>
-				{% if product.status %}
-				<td> <span class="badge  bg-success">Activo</span></td>
-				{% else %}
-				<td><span class="badge bg-danger bg-block">Inactivo</span></td>
-				{% endif %}
-				<td>{{product.category.name}}</td>
-				<td>
-					<a href="#" class="btn btn-primary btn-sm"><i class="bi-search"></i> Ver</a>
-					<a href="#" class="btn btn-warning btn-sm"><i class="bi bi-pencil"></i> Editar</a>
-					<a href="#" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Eliminar</a>
-				</td>
-			</tr>
-			{% endfor %}
+<div class=" row ">
+    <table class="table table-hover table-responsive ">
+        <thead>
+            <tr>
+                <th scope="col ">Código</th>
+                <th scope="col ">Nombre</th>
+                <th scope="col ">Precio de venta</th>
+                <th scope="col ">Estado</th>
+                <th scope="col ">Categoria</th>
+                <th scope="col ">Accion</th>
+            </tr>
+        </thead>
+        <tbody id='body_table'>
+            {% for product in object_list %}
+            <tr>
+                <th scope="row ">{{product.code}}</th>
+                <td>{{product.name}}</td>
+                <td>{{product.sale_price}}</td>
+                {% if product.status %}
+                <td> <span class="badge bg-success ">Activo</span></td>
+                {% else %}
+                <td><span class="badge bg-danger bg-block ">Inactivo</span></td>
+                {% endif %}
+                <td>{{product.category.name}}</td>
+                <td>
+                    <a href="# " class="btn btn-warning btn-sm text-white "><i class="bi bi-pencil "></i> Editar</a>
+                    <a href="# " class="btn btn-danger btn-sm "><i class="bi bi-trash "></i> Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
 
-		</tbody>
-	</table>
+        </tbody>
+    </table>
 </div>
 
 
 
-<div class="modal fade" id="modal_product" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog ">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel"><b>Crear nuevo producto</b></h5>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<div class="container-fluid">
-					<form action="{% url 'product:create'%}" method="POST" id="form_product">
-						{% csrf_token %}
-
-						{% for field in form %}
-						<div class="mb-3 row">
-							<div class="col-md-3">
-								<label for="{{ field.id_for_label }}" class="col-form-label "><b>{{field.label}}</b>
+<div class="modal fade " id="modal_product " tabindex="-1 " aria-labelledby="exampleModalLabel " aria-hidden="true ">
+    <div class="modal-dialog ">
+        <div class="modal-content ">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="exampleModalLabel "><b>Crear nuevo producto</b></h5>
+                <button type="button " class="btn-close " data-bs-dismiss="modal " aria-label="Close "></button>
+            </div>
+            <div class="modal-body ">
+                <div class="container-fluid ">
+                    <form action="{% url 'product:create'%} " method="POST " id="form_product ">
+                        {% csrf_token %} {% for field in form %}
+                        <div class="mb-3 row ">
+                            <div class="col-md-3 ">
+                                <label for="{{ field.id_for_label }} " class="col-form-label "><b>{{field.label}}</b>
 								</label>
-							</div>
-							<div class="col-sm-9">
-								{{field}}
-							</div>
-						</div>
+                            </div>
+                            <div class="col-sm-9 ">
+                                {{field}}
+                                <div class="invalid-feedback " id="invalid_{{field.name}} ">
+                                </div>
+                            </div>
+                        </div>
 
-						{% endfor %}
-					</form>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary" onclick="create_product()" data-bs-dismiss="modal">Guardar</button>
-			</div>
-		</div>
-	</div>
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button type="button " class="btn btn-secondary " data-bs-dismiss="modal ">Close</button>
+                <button type="button " class="btn btn-primary " onclick="create_product() ">Guardar</button>
+            </div>
+        </div>
+    </div>
 </div>
-{% endblock%}
-
-{% block js%}
-<script src="{% static '/product/js/style.js' %}"></script>
+{% endblock%} {% block js%}
+<script src="{% static '/product/js/style.js' %} "></script>
 
 {% endblock %}
