@@ -19,15 +19,14 @@ function create_product(){
                 +"</tr>"
             )
             $('#modal_product').modal('hide')
-            $("#form_product")[0].reset();
         },
         error: function(error){
             console.log(error)
             let errors = Object.keys(error.responseJSON.error)
-            $('.is-invalid').removeClass('is-invalid').addClass('is-valid')
+            $('.is-invalid').removeClass('is-invalid')
             for(let item in errors){
                 $('#invalid_'+errors[item]).empty()
-                $('#id_'+errors[item]).addClass('is-invalid').removeClass('is-valid')
+                $('#id_'+errors[item]).addClass('is-invalid')
                 $('#invalid_'+errors[item]).append(error.responseJSON.error[errors[item]])
             }
 

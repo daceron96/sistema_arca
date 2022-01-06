@@ -24,6 +24,6 @@ class ProductForm(forms.ModelForm):
             
         error_messages = {
             'code': {
-                'unique': "Ya existe un producto registrado con este mismo código.",
+                'unique': "Ya existe un producto registrado con este mismo código."
             },
         }

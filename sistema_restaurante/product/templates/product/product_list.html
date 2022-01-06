@@ -9,26 +9,26 @@
 			<i class="bi bi-file-earmark-plus"></i>
 			Añadir Producto
 		</button>
-
     </div>
 </div>
 <!--Div formulario de busqueda producto-->
 <div class="row mb-3 ">
     <div class="col-md-6">
-        <form action="">
+        <form action="{% url 'product:list_products'%}" method='GET'>
             <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Buscar producto" aria-label="Buscar producto" aria-describedby="button-addon2">
-                <button class="btn btn-outline-primary" type="button"><i class="bi-search"></i> Buscar</button>
+                <input type="text" class="form-control" name='name_product' placeholder="Buscar producto" aria-label="Buscar producto" aria-describedby="button-addon2">
+                <button class="btn btn-outline-primary" type="submit"><i class="bi-search"></i> Buscar</button>
             </div>
         </form>
     </div>
     <div class="col-md-6">
         <form  action="{% url 'product:list_products'%}" method="GET">
-			<select class="form-select" aria-label="buscar categoria" id='filter_category' onchange="this.form.submit()">
-				<option selected>Filtrar por categoria</option>
+			<select class="form-select" aria-label="buscar categoria" name='category' id='filter_category' onchange="this.form.submit()">
+				<option selected disabled>Filtrar productos por categoria</option>
+				<option value="all">Todos los productos</option>
 				{% for category in categorys %}
+                
 				<option value={{category.id}}>{{category.name}}</option>
-
 				{% endfor %}
 			</select>
         </form>
@@ -73,7 +73,7 @@
 
 
 
-<div class="modal fade " id="modal_product " tabindex="-1 " aria-labelledby="exampleModalLabel " aria-hidden="true ">
+<div class="modal fade " id="modal_product" tabindex="-1 " aria-labelledby="exampleModalLabel " aria-hidden="true ">
     <div class="modal-dialog ">
         <div class="modal-content ">
             <div class="modal-header ">
@@ -82,7 +82,7 @@
             </div>
             <div class="modal-body ">
                 <div class="container-fluid ">
-                    <form action="{% url 'product:create'%} " method="POST " id="form_product ">
+                    <form action="{% url 'product:create'%}" method="POST" id="form_product">
                         {% csrf_token %} {% for field in form %}
                         <div class="mb-3 row ">
                             <div class="col-md-3 ">
@@ -91,7 +91,7 @@
                             </div>
                             <div class="col-sm-9 ">
                                 {{field}}
-                                <div class="invalid-feedback " id="invalid_{{field.name}} ">
+                                <div class="invalid-feedback " id="invalid_{{field.name}}">
                                 </div>
                             </div>
                         </div>
@@ -101,13 +101,14 @@
                 </div>
             </div>
             <div class="modal-footer ">
-                <button type="button " class="btn btn-secondary " data-bs-dismiss="modal ">Close</button>
-                <button type="button " class="btn btn-primary " onclick="create_product() ">Guardar</button>
+                <button type="button " class="btn btn-secondary " data-bs-dismiss="modal">Close</button>
+                <button type="button " class="btn btn-primary " onclick="create_product()">Guardar</button>
             </div>
         </div>
     </div>
 </div>
-{% endblock%} {% block js%}
-<script src="{% static '/product/js/style.js' %} "></script>
+{% endblock%}
+{% block js%}
+    <script src="{% static '/product/js/style.js' %} "></script>
 
 {% endblock %}
