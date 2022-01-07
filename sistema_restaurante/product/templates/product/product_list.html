@@ -5,7 +5,7 @@
         <h1 class="text-center"><i class="bi bi-journal-bookmark-fill"></i> Lista de productos</h1>
     </div>
     <div class="col-md-2">
-        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_product">
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_product" onclick='clean_modal()'>
 			<i class="bi bi-file-earmark-plus"></i>
 			Añadir Producto
 		</button>
@@ -50,8 +50,8 @@
         </thead>
         <tbody id='body_table'>
             {% for product in object_list %}
-            <tr>
-                <th scope="row ">{{product.code}}</th>
+            <tr id='item_list_{{product.code}}' >
+                <td><b>{{product.code}}</b></td>
                 <td>{{product.name}}</td>
                 <td>{{product.sale_price}}</td>
                 {% if product.status %}
@@ -61,8 +61,8 @@
                 {% endif %}
                 <td>{{product.category.name}}</td>
                 <td>
-                    <a href="# " class="btn btn-warning btn-sm text-white "><i class="bi bi-pencil "></i> Editar</a>
-                    <a href="# " class="btn btn-danger btn-sm "><i class="bi bi-trash "></i> Eliminar</a>
+                    <button type="button" class="btn btn-warning btn-sm text-white" onclick='get_update_product({{product.id}})'><i class="bi bi-pencil "></i> Editar</button>
+                    <button type="button" class="btn btn-danger btn-sm " onclick='delete_product({{product.id}})'><i class="bi bi-trash "></i> Eliminar</button>
                 </td>
             </tr>
             {% endfor %}
@@ -71,18 +71,16 @@
     </table>
 </div>
 
-
-
 <div class="modal fade " id="modal_product" tabindex="-1 " aria-labelledby="exampleModalLabel " aria-hidden="true ">
     <div class="modal-dialog ">
         <div class="modal-content ">
             <div class="modal-header ">
-                <h5 class="modal-title " id="exampleModalLabel "><b>Crear nuevo producto</b></h5>
-                <button type="button " class="btn-close " data-bs-dismiss="modal " aria-label="Close "></button>
+                <h5 class="modal-title " id="title_modal">Crear nuevo producto</h5>
+                <button type="button" class="btn-close " data-bs-dismiss="modal " aria-label="Close "></button>
             </div>
             <div class="modal-body ">
                 <div class="container-fluid ">
-                    <form action="{% url 'product:create'%}" method="POST" id="form_product">
+                    <form action="{% url 'product:create'%}" method="POST" id="form_product" autocomplete='off'>
                         {% csrf_token %} {% for field in form %}
                         <div class="mb-3 row ">
                             <div class="col-md-3 ">
@@ -102,7 +100,8 @@
             </div>
             <div class="modal-footer ">
                 <button type="button " class="btn btn-secondary " data-bs-dismiss="modal">Close</button>
-                <button type="button " class="btn btn-primary " onclick="create_product()">Guardar</button>
+                <button type="button " class="btn btn-primary " id='btn_add' onclick="create_product()">Guardar</button>
+                <button type="button " class="btn btn-primary 'visually-hidden" id='btn_upd'>Actualizar</button>
             </div>
         </div>
     </div>

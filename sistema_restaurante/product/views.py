@@ -1,7 +1,4 @@
-from django.core.serializers import serialize
-from django.http.response import HttpResponse
-from django.shortcuts import redirect
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from .models import Product, Category
 from .forms import ProductForm
@@ -9,14 +6,13 @@ from django.http import JsonResponse, request
 
 
 #PRODUCT VIEWS
-class ProductCreateView(CreateView):
+class CreateProductView(CreateView):
     model = Product
     form_class = ProductForm
     def post(self,  *args, **kwargs):
         if self.request.is_ajax():
             form = self.form_class(self.request.POST)
             if form.is_valid():
-                print('entre')
                 product = self.model.objects.create(
                     code = form.cleaned_data.get('code'),
                     name = form.cleaned_data.get('name'),
@@ -38,8 +34,52 @@ class ProductCreateView(CreateView):
                 response = JsonResponse({'error':error})
                 response.status_code = 400
                 return response
-    
 
+class UpdateProductView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    def post(self,*args, **kwargs):
+        if self.request.is_ajax():
+            form = self.form_class(self.request.POST, instance = self.get_object())
+            if form.is_valid():
+                form.save()
+                object = self.get_object()
+                response = JsonResponse({
+                    'id': object.id,
+                    'code':object.code,
+                    'name':object.name,
+                    'sale_price':object.sale_price,
+                    'category':object.category.name,
+                })
+                response.status_code = 201
+                return response
+            else:
+                error = form.errors
+                response = JsonResponse({'error':error})
+                response.status_code = 400
+                return response
+   
+    def get(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            object = self.get_object()
+            response = JsonResponse({
+                'id':object.id,
+                'code':object.code,
+                'name':object.name,
+                'sale_price':object.sale_price,
+                'description':object.description,
+                'category':object.category.id,
+            })
+            return response
+        
+class DeleteProductView(DeleteView):
+    model = Product
+    def get(self, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()    
+        response = JsonResponse({'error':'un error'})
+        return response
+        
 class ProductListView(ListView):
     model = Product
     def get_context_data(self, **kwargs):
@@ -60,9 +100,7 @@ class ProductListView(ListView):
         
         return object_list
     
-def filter_product_by_category(request, pk):
-    json_response = {'filter':False}
-    return JsonResponse(json_response)
+
 
 #CATEGORY VIEWS
 
