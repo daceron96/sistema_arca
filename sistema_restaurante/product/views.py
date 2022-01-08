@@ -21,6 +21,7 @@ class CreateProductView(CreateView):
                     category = form.cleaned_data.get('category')
                 )
                 response = JsonResponse({
+                    'id' : product.id,
                     'code':product.code,
                     'name':product.name,
                     'sale_price':product.sale_price,
@@ -76,12 +77,14 @@ class DeleteProductView(DeleteView):
     model = Product
     def get(self, *args, **kwargs):
         self.object = self.get_object()
+        code = self.object.code
         self.object.delete()    
-        response = JsonResponse({'error':'un error'})
+        response = JsonResponse({'code':code})
         return response
         
 class ProductListView(ListView):
     model = Product
+    template_name = 'product/product.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categorys'] = Category.objects.filter(status = True)

@@ -1,0 +1,36 @@
+
+<div class="modal fade " id="modal_product" tabindex="-1 " aria-labelledby="exampleModalLabel " aria-hidden="true ">
+    <div class="modal-dialog ">
+        <div class="modal-content ">
+            <div class="modal-header ">
+                <h5 class="modal-title " id="title_modal">Crear nuevo producto</h5>
+                <button type="button" class="btn-close " data-bs-dismiss="modal " aria-label="Close "></button>
+            </div>
+            <div class="modal-body ">
+                <div class="container-fluid ">
+                    <form action="{% url 'product:create'%}" method="POST" id="form_product" autocomplete='off'>
+                        {% csrf_token %} {% for field in form %}
+                        <div class="mb-3 row ">
+                            <div class="col-md-3 ">
+                                <label for="{{ field.id_for_label }} " class="col-form-label "><b>{{field.label}}</b>
+								</label>
+                            </div>
+                            <div class="col-sm-9 ">
+                                {{field}}
+                                <div class="invalid-feedback " id="invalid_{{field.name}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        {% endfor %}
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button type="button " class="btn btn-secondary " data-bs-dismiss="modal">Close</button>
+                <button type="button " class="btn btn-primary " id='btn_add' onclick="create_product()">Guardar</button>
+                <button type="button " class="btn btn-primary 'visually-hidden" id='btn_upd'>Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>

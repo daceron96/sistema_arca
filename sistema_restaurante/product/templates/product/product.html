@@ -34,6 +34,7 @@
         </form>
     </div>
 </div>
+<button type='button' onclick='prueba()'>algo</button>
 
 <!--Div tabla productos-->
 <div class=" row ">
@@ -62,7 +63,7 @@
                 <td>{{product.category.name}}</td>
                 <td>
                     <button type="button" class="btn btn-warning btn-sm text-white" onclick='get_update_product({{product.id}})'><i class="bi bi-pencil "></i> Editar</button>
-                    <button type="button" class="btn btn-danger btn-sm " onclick='delete_product({{product.id}})'><i class="bi bi-trash "></i> Eliminar</button>
+                    <button type="button" class="btn btn-danger btn-sm " onclick="confirm_delete('{{product.name}}',{{product.id}})""><i class="bi bi-trash "></i> Eliminar</button>
                 </td>
             </tr>
             {% endfor %}
@@ -71,41 +72,8 @@
     </table>
 </div>
 
-<div class="modal fade " id="modal_product" tabindex="-1 " aria-labelledby="exampleModalLabel " aria-hidden="true ">
-    <div class="modal-dialog ">
-        <div class="modal-content ">
-            <div class="modal-header ">
-                <h5 class="modal-title " id="title_modal">Crear nuevo producto</h5>
-                <button type="button" class="btn-close " data-bs-dismiss="modal " aria-label="Close "></button>
-            </div>
-            <div class="modal-body ">
-                <div class="container-fluid ">
-                    <form action="{% url 'product:create'%}" method="POST" id="form_product" autocomplete='off'>
-                        {% csrf_token %} {% for field in form %}
-                        <div class="mb-3 row ">
-                            <div class="col-md-3 ">
-                                <label for="{{ field.id_for_label }} " class="col-form-label "><b>{{field.label}}</b>
-								</label>
-                            </div>
-                            <div class="col-sm-9 ">
-                                {{field}}
-                                <div class="invalid-feedback " id="invalid_{{field.name}}">
-                                </div>
-                            </div>
-                        </div>
-
-                        {% endfor %}
-                    </form>
-                </div>
-            </div>
-            <div class="modal-footer ">
-                <button type="button " class="btn btn-secondary " data-bs-dismiss="modal">Close</button>
-                <button type="button " class="btn btn-primary " id='btn_add' onclick="create_product()">Guardar</button>
-                <button type="button " class="btn btn-primary 'visually-hidden" id='btn_upd'>Actualizar</button>
-            </div>
-        </div>
-    </div>
-</div>
+{% include 'product/product_form.html' %}
+{% include 'product/confirm.html' %}
 {% endblock%}
 {% block js%}
     <script src="{% static '/product/js/style.js' %} "></script>

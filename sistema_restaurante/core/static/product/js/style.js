@@ -5,7 +5,7 @@ function create_product() {
         type: $('#form_product').attr('method'),
         success: function (response) {
             $('#body_table').append(
-                '<tr>'
+                "<tr id='item_list_"+response['code']+"'>"
                 + set_item_list(response)
                 + "</tr>"
             )
@@ -44,7 +44,7 @@ function update_product(id_product) {
         type: $('#form_product').attr('method'),
         success: function (response) {
             $('#item_list_'+response['code']).empty()
-            $('#item_list_'+response['code']).append(set_item_list(response))
+            $('#item_list_'+response['code']).append(set_item_list(response)).addClass('table-success')
             $('#modal_product').modal('hide')
         },
         error: function (error) {
@@ -59,7 +59,10 @@ function delete_product(id_product){
         url: '/product/delete/'+id_product+ '/',
         type: 'GET',
         success: function(response){
-            $('#item_list_'+id_product).remove();
+            $('#modal_confirm').modal('hide');
+            $('#btn_confirm_delete').removeAttr('onclick')
+            $('#item_list_'+response['code']).remove();
+
         }
     })
 }
@@ -82,7 +85,7 @@ function set_item_list(object) {
         + "<td>" + object['category'] + "</td>"
         + "<td>"
         + "<button type='button' class='btn btn-warning btn-sm text-white' onclick='get_update_product("+ object['id']+")'><i class='bi bi-pencil'></i> Editar</button>"
-        + " <button type='button' class='btn btn-danger btn-sm '><i class='bi bi-trash '></i> Eliminar</button>"
+        + " <button type='button' class='btn btn-danger btn-sm ' onclick='confirm_delete("+object['name']+","+object['id']+")'><i class='bi bi-trash '></i> Eliminar</button>"
         + "</td>"
         
     return item
@@ -97,3 +100,14 @@ function clean_modal() {
     $('#btn_upd').addClass('visually-hidden').removeAttr('onclick')
 }
 
+function confirm_delete(name,id_product){
+    $('#name_product').text(name);
+    $('#btn_confirm_delete').attr('onclick', 'delete_product('+id_product+')')
+    $('#modal_confirm').modal('show');
+}
+
+function prueba(){
+    $('#item_list_3').after(
+        '<tr> <td> asdasdasdds </td> </tr>'
+    )
+}
