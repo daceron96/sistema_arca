@@ -1,5 +1,4 @@
-from django import forms
-from django.forms import widgets 
+from django import forms 
 from .models import Product, Category
 
 class ProductForm(forms.ModelForm):
@@ -26,4 +25,21 @@ class ProductForm(forms.ModelForm):
             'code': {
                 'unique': "Ya existe un producto registrado con este mismo código."
             },
+        }
+        
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        
+        fields = ['name','description','work_section']
+        widgets = {
+            'name' : forms.TextInput(attrs={'class':'form-control', 'placeholder':'Nombre de la categoria'}),
+            'description' : forms.Textarea(attrs={'class':'form-control', 'placeholder':'Descripción de la categoria', 'rows':'3'}),
+            'work_section' : forms.Select(attrs ={'class':'form-select'})
+            
+        }
+        labels = {
+            'name' : 'Nombre',
+            'description' : 'Descripcion',
+            'work_section' : 'Seccion',
         }

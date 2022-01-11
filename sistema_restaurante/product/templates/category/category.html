@@ -1,0 +1,61 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Lista de categorias{% endblock title %}
+{% block content %}
+
+<!--encabezado-->
+<div class="row mb-4">
+    <div class="col-md-10">
+        <h1 class="text-center"><i class="bi bi-journal-bookmark-fill"></i> Lista de categorias</h1>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_category" onclick='clean_modal()'>
+			<i class="bi bi-file-earmark-plus"></i>
+			Añadir Categoria
+		</button>
+    </div>
+</div>
+<div class="container">
+	<div class="row table-responsive">
+		<table class="table table-hover" id='table_list'>
+			<thead>
+				<tr>
+					<th scope="col">#</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Descripción</th>
+					<th scope="col">Seccion</th>
+					<th scope="col">Estado</th>
+					<th scope="col">Acción</th>
+				</tr>
+			</thead>
+			<tbody id='body_table'>
+				{% for category in object_list%}
+				<tr id='item_list_{{category.id}}' >
+					<td id='{{forloop.counter}}' ><b>{{forloop.counter}}</b></td>
+					<td>{{category.name}}</td>
+					<td>{{category.description}}</td>
+					<td>{{category.work_section}}</td>
+					{% if category.status%}
+					<td><span class="badge bg-success p-2">Activo</span></td>
+					{% else %}
+					<td><span class="badge bg-danger p-2">Inactivo</span></td>
+					{% endif %}
+					<td>
+						<button type="button" class="btn btn-outline-secondary btn-sm" onclick='get_update_category({{category.id}},{{forloop.counter}})'><i class="bi bi-pencil "></i> Editar</button>
+						<button type="button" id='btn_delete_{{category.id}}' class="btn btn-outline-danger btn-sm " onclick="confirm_delete('{{category.name}}',{{category.id}})"><i class="bi bi-trash "></i> Eliminar</button>
+					</td>
+				</tr>
+				{% endfor %}
+
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% include 'category/category_form.html' %}
+{% include 'category/confirm.html' %}
+{% endblock%}
+{% block js%}
+    <script src="{% static '/product/category/js/style.js' %} "></script>
+
+{% endblock %}

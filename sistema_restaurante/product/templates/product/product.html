@@ -34,7 +34,6 @@
         </form>
     </div>
 </div>
-<button type='button' onclick='prueba()'>algo</button>
 
 <!--Div tabla productos-->
 <div class=" row ">
@@ -56,14 +55,14 @@
                 <td>{{product.name}}</td>
                 <td>{{product.sale_price}}</td>
                 {% if product.status %}
-                <td> <span class="badge bg-success ">Activo</span></td>
+                <td> <span class="badge bg-success p-2 ">Activo</span></td>
                 {% else %}
-                <td><span class="badge bg-danger bg-block ">Inactivo</span></td>
+                <td><span class="badge bg-danger p-2  ">Inactivo</span></td>
                 {% endif %}
                 <td>{{product.category.name}}</td>
                 <td>
-                    <button type="button" class="btn btn-warning btn-sm text-white" onclick='get_update_product({{product.id}})'><i class="bi bi-pencil "></i> Editar</button>
-                    <button type="button" class="btn btn-danger btn-sm " onclick="confirm_delete('{{product.name}}',{{product.id}})""><i class="bi bi-trash "></i> Eliminar</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick='get_update_product({{product.id}})'><i class="bi bi-pencil "></i> Editar</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm " onclick="confirm_delete('{{product.name}}',{{product.id}})""><i class="bi bi-trash "></i> Eliminar</button>
                 </td>
             </tr>
             {% endfor %}
@@ -76,6 +75,6 @@
 {% include 'product/confirm.html' %}
 {% endblock%}
 {% block js%}
-    <script src="{% static '/product/js/style.js' %} "></script>
+    <script src="{% static '/product/product/js/style.js' %} "></script>
 
 {% endblock %}

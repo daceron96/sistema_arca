@@ -81,11 +81,11 @@ function set_item_list(object) {
     item ="<td><b>" + object['code'] + "</b></td>"
         + "<td>" + object['name'] + "</td>"
         + "<td>" + object['sale_price'] + "</td>"
-        + "<td> <span class='badge  bg-success'>Activo</span></td>"
+        + "<td> <span class='badge  bg-success p-2'>Activo</span></td>"
         + "<td>" + object['category'] + "</td>"
         + "<td>"
-        + "<button type='button' class='btn btn-warning btn-sm text-white' onclick='get_update_product("+ object['id']+")'><i class='bi bi-pencil'></i> Editar</button>"
-        + " <button type='button' class='btn btn-danger btn-sm ' onclick='confirm_delete("+object['name']+","+object['id']+")'><i class='bi bi-trash '></i> Eliminar</button>"
+        + "<button type='button' class='btn btn-outline-secondary btn-sm'  onclick='get_update_product("+ object['id']+")'><i class='bi bi-pencil'></i> Editar</button>"
+        + " <button type='button' class='btn btn-outline-danger btn-sm ' onclick='confirm_delete("+object['name']+","+object['id']+")'><i class='bi bi-trash '></i> Eliminar</button>"
         + "</td>"
         
     return item
@@ -106,8 +106,3 @@ function confirm_delete(name,id_product){
     $('#modal_confirm').modal('show');
 }
 
-function prueba(){
-    $('#item_list_3').after(
-        '<tr> <td> asdasdasdds </td> </tr>'
-    )
-}
