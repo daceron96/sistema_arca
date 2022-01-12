@@ -162,14 +162,15 @@ function del_order_detail(indice){
 }
 
 function add_order(table){
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
     $.ajax({
         
         data : {'data' : JSON.stringify(detail_order),
                 'table':table, 
             },
-        url: '/order/add-order',
-        type : 'GET',
-        
+        url: '/order/add-order/',
+        type : 'POST',
+        headers: {'X-CSRFToken': csrftoken},        
         success: function(){
             window.location =  "/order/table-list"
         }

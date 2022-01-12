@@ -40,12 +40,12 @@ class GetProductList(ListView):
 # guarda la orden de pedido en la base de datos falta cambiar su metodo GET a POST
 class CreateOrderView(CreateView):
     model = Order
-    def get(self, *args, **kwargs):
+    def post(self, *args, **kwargs):
         if self.request.is_ajax():
             total_price = 0
-            array_detail = json.loads(self.request.GET['data'])
+            array_detail = json.loads(self.request.POST['data'])
             new_order = self.model.objects.create(table=Table.objects.get(
-            table_number=int(self.request.GET['table'])))
+            table_number=int(self.request.POST['table'])))
             for detail in array_detail:
                 total_price = total_price + (int(detail['quantity_product']) * int(detail['sale_price']))
                 Order_detail.objects.create(
@@ -64,14 +64,29 @@ class GetOrderDetail(ListView):
     model = Order_detail
 
     def get_queryset(self):
-        print(self.request.GET['id_order'])
         return self.model.objects.filter(order__pk=self.request.GET['id_order'])
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
-            return HttpResponse(serialize('json', self.get_queryset()), 'application/json')
-
-
+            list_detail_order = []
+            for detail in self.get_queryset():
+                data = {}
+                data['id_order'] = detail.order.id   
+                data['product'] = detail.product.name                 
+                data['quantity_product'] = detail.quantity_product
+                data['sale_price'] = detail.product.sale_price 
+                data['sale_price'] = detail.product.sale_price 
+                list_detail_order.append(data)              
+            
+            response = JsonResponse({
+                'data': list_detail_order,
+            })
+            
+            return response        
 # listar las mesas creadas
 class TableListView(ListView):
     model = Table
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order_list'] = Order.objects.filter(status=True, table__status = True)
+        return context

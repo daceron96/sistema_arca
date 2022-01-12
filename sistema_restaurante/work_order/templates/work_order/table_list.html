@@ -16,9 +16,14 @@
                 <rect width="100%" height="100%" fill="#55595c" />
             </svg>
             {% if table.status %}
+            {% for order in order_list %}
+            {% if order.table == table %}
+
             <div class="card-body bg-warning ">
-                <a href='' class="stretched-link link-light" style="text-decoration:none" data-bs-toggle="modal" data-bs-target="#modal_description_order"><b>Mesa {{table.table_number}}</b></a>
+                <a href='' class="stretched-link link-light" onclick='get_order({{order.id}})' style="text-decoration:none" data-bs-toggle="modal" data-bs-target="#modal_description_order"><b>Mesa {{table.table_number}}</b></a>
             </div>
+            {% endif %}
+            {% endfor%}
             {% else %}
             <div class="card-body bg-primary ">
                 <a href="{% url 'order:order' table.table_number %}" class="stretched-link link-light" style="text-decoration:none" ><b>Mesa {{table.table_number}}</b></a>
@@ -26,52 +31,12 @@
             {% endif%}
         </div>
     </div>
+
     {% endfor %}
+    {{orders}}
     <button onclick="get_order(52)">click</button>
 </div>
-<!--MODAL-->
-<div class="modal fade" id="modal_description_order" tabindex="-1" aria-labelledby="modal_description_order" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Orden #0001</h5>
-               
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table " >
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Producto</th>
-                            <th>Cantidad</th>
-                            <th>Valor total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="body_modal">
-                        <tr>
-                            <tD>1</tD>
-                            <td>Hamburguesa sencilla</td>
-                            <td>2</td>
-                            <td>23800</td>
-                        </tr>	
-                        <tr>
-                            <td>2</td>
-                            <td>Hamburguesa sencilla</td>
-                            <td>2</td>
-                            <td>23800</td>
-                        </tr>	 	
-                    </tbody>
-                </table>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
-        </div>
-    </div>
-</div>
-
+{% include 'work_order/modal_order.html' %}
 {% endblock content %}
 {% block js%}
 <script src="{% static '/work_order/js/table_list.js' %}"></script>
