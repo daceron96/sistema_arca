@@ -1,16 +1,12 @@
+from dataclasses import fields
 import json
-from typing import List
-from django.db.models import fields
-from django.db.models.fields import Field
 from django.http.response import HttpResponse, JsonResponse
-from django.shortcuts import redirect, render
 from django.core.serializers import serialize
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from .models import Order, Order_detail, Table
 from product.models import Category, Product
-from django.urls import reverse_lazy
 
 # carga la vista principal ara agregar una nueva orden
 
@@ -22,19 +18,6 @@ class AddOrderView(TemplateView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.filter(status=True)
         return context
-
-# vista que obtiene la lista de productos de acuerdo al id de la categoria que se recibe
-
-
-class GetProductList(ListView):
-    model = Product
-
-    def get_queryset(self):
-        return self.model.objects.filter(category__pk=self.request.GET['id_category'])
-
-    def get(self, request, *args, **kwargs):
-        if request.is_ajax():
-            return HttpResponse(serialize('json', self.get_queryset()), 'application/json')
 
 
 # guarda la orden de pedido en la base de datos falta cambiar su metodo GET a POST
@@ -59,6 +42,25 @@ class CreateOrderView(CreateView):
             response = JsonResponse({'menssaje':'mensaje'})
             return response
 
+class UpdateOrderView(UpdateView):
+    model = Order
+    template_name = 'work_order/order.html'
+    fields = '__all__'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.filter(status=True)
+        context['list_detail'] = Order_detail.objects.filter(order__id = self.get_object().pk)
+        return context
+#Vistas de consulta
+class GetProductList(ListView):
+    model = Product
+
+    def get_queryset(self):
+        return self.model.objects.filter(category__pk=self.request.GET['id_category'])
+
+    def get(self, request, *args, **kwargs):
+        if request.is_ajax():
+            return HttpResponse(serialize('json', self.get_queryset()), 'application/json')
 
 class GetOrderDetail(ListView):
     model = Order_detail
@@ -71,18 +73,19 @@ class GetOrderDetail(ListView):
             list_detail_order = []
             for detail in self.get_queryset():
                 data = {}
-                data['id_order'] = detail.order.id   
                 data['product'] = detail.product.name                 
                 data['quantity_product'] = detail.quantity_product
-                data['sale_price'] = detail.product.sale_price 
                 data['sale_price'] = detail.product.sale_price 
                 list_detail_order.append(data)              
             
             response = JsonResponse({
                 'data': list_detail_order,
+                'id_order' : detail.order.id,
+                'total_price' : detail.order.total_price
             })
             
-            return response        
+            return response     
+        
 # listar las mesas creadas
 class TableListView(ListView):
     model = Table

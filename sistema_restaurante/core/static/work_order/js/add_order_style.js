@@ -168,7 +168,7 @@ function add_order(table){
         data : {'data' : JSON.stringify(detail_order),
                 'table':table, 
             },
-        url: '/order/add-order/',
+        url: '/order/create/',
         type : 'POST',
         headers: {'X-CSRFToken': csrftoken},        
         success: function(){

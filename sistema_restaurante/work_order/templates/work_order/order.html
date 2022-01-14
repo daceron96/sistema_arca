@@ -35,7 +35,12 @@
 		</div>
 		<div class=" mt-2">
 			<ul class="list-group list-group-flush " id="detail_list">
-				
+					{% for detail in list_detail%}
+					<button class="list-group-item d-flex justify-content-between align-items-center" id="product_detail_{{detail.product.code}}" onclick="complete_edit_modal({{detail.product.code}})" data-bs-toggle='modal' data-bs-target='#modal_add_product'> 
+						{{detail.product.name}}
+						<span class='badge bg-primary rounded-pill px-4' id='quantity_span_{{detail.product.code}}'>{{detail.quantity_product}}</span>
+					</button>
+					{% endfor %}
 			</ul>
 			<ul class="list-group list-group-flush pt-2 border-2 border-top	visually-hidden" id="footer_order_list">
 				<li class="list-group-item text-end" id='total_price'>
