@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AddOrderView,TableListView, GetOrderDetail,GetProductList
+from .views import AddOrderView,TableListView, GetOrderDetail,GetProductList, GetDetail
 from .views import CreateOrderView, UpdateOrderView
 
 work_order_patterns = ([    
@@ -10,6 +10,7 @@ work_order_patterns = ([
     
     #PATH GETS json
     path('get-product/',GetProductList.as_view(), name='get_product'),
+    path('get-detail/',GetDetail.as_view(), name='get_detail'),
     path('get-detail-order/',GetOrderDetail.as_view(), name='get_product'),
     
     path('table-list/', TableListView.as_view(), name ='table_list'),

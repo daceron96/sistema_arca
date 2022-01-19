@@ -1,12 +1,13 @@
-from dataclasses import fields
 import json
 from django.http.response import HttpResponse, JsonResponse
 from django.core.serializers import serialize
 from django.views.generic.base import TemplateView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from .models import Order, Order_detail, Table
 from product.models import Category, Product
+
 
 # carga la vista principal ara agregar una nueva orden
 
@@ -60,8 +61,40 @@ class GetProductList(ListView):
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
-            return HttpResponse(serialize('json', self.get_queryset()), 'application/json')
+            list_product = []
+            for product in self.get_queryset():
+                item = {}
+                item['code'] = product.code
+                item['name'] = product.name
+                item['sale_price'] = product.sale_price
+                list_product.append(item)
+            data = json.dumps(list_product)
+            return HttpResponse(data,'application/json')
+#Editar orden de pedido
 
+class GetDetail(DetailView):
+    model = Order_detail
+        
+    def get(self, request, *args, **kwargs):
+        if self.request.is_ajax():
+            detail = self.model.objects.get(pk = self.request.GET['pk'])
+            return JsonResponse({
+                "code": detail.product.code,
+                'name' : detail.product.name,
+                'sale_price' : detail.product.sale_price,
+                'quantity_product' : detail.quantity_product,
+                'comment' : detail.comment,
+                'id_detail' : detail.pk
+                })
+        
+# Mesas
+class TableListView(ListView):
+    model = Table
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order_list'] = Order.objects.filter(status=True, table__status = True)
+        return context
+    
 class GetOrderDetail(ListView):
     model = Order_detail
 
@@ -86,10 +119,3 @@ class GetOrderDetail(ListView):
             
             return response     
         
-# listar las mesas creadas
-class TableListView(ListView):
-    model = Table
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['order_list'] = Order.objects.filter(status=True, table__status = True)
-        return context

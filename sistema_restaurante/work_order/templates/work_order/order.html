@@ -1,6 +1,7 @@
 {% extends "core/base.html" %}
 {% block title %}Nueva orden {% endblock title %}
 {% load static%}
+{% load humanize %}
 {% block content%}
 <div class="row pb-3 border-4 border-bottom">
 	<h1 class="text-center"><i class="bi bi-journal-plus"></i> Agregar nueva orden</h1>
@@ -36,17 +37,26 @@
 		<div class=" mt-2">
 			<ul class="list-group list-group-flush " id="detail_list">
 					{% for detail in list_detail%}
-					<button class="list-group-item d-flex justify-content-between align-items-center" id="product_detail_{{detail.product.code}}" onclick="complete_edit_modal({{detail.product.code}})" data-bs-toggle='modal' data-bs-target='#modal_add_product'> 
+					<button class="list-group-item d-flex justify-content-between align-items-center" id="product_detail_{{detail.product.code}}" onclick="get_detail_order({{detail.pk}},{{detail.product.code}})" > 
 						{{detail.product.name}}
 						<span class='badge bg-primary rounded-pill px-4' id='quantity_span_{{detail.product.code}}'>{{detail.quantity_product}}</span>
 					</button>
 					{% endfor %}
 			</ul>
+			{%if order %}
+			<ul class="list-group list-group-flush pt-2 border-2 border-top" id="footer_order_list">
+				<li class="list-group-item text-end" id='total_price'>
+					<h6><b>Total: </b>${{order.total_price | intcomma}}</h6>
+				</li>
+				<button type="button" class="btn btn-outline-primary" onclick="add_order({{table}})"><i class="bi bi-send-plus-fill"></i> Enviar</button>
+			</ul>
+			{%else%}
 			<ul class="list-group list-group-flush pt-2 border-2 border-top	visually-hidden" id="footer_order_list">
 				<li class="list-group-item text-end" id='total_price'>
 				</li>
 				<button type="button" class="btn btn-outline-primary" onclick="add_order({{table}})"><i class="bi bi-send-plus-fill"></i> Enviar</button>
 			</ul>
+			{%endif%}
 		</div>
 	</div>
 </div>
@@ -83,9 +93,15 @@
 		</div>
 	</div>
 </div>
+
+
 {% endblock%}
 
 {% block js%}
 <script src="{% static '/work_order/js/add_order_style.js' %}"></script>
-
+{%if order %}
+<script>
+	detail_order.total_price = {{order.total_price}}
+</script>
+{% endif %}
 {% endblock %}

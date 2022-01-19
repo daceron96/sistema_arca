@@ -61,10 +61,10 @@ function list_product(id_category){
                 for(let i=0; i < data.length; i++){
                     let item ="<button " 
                     +"class='list-group-item list-group-item-action' "
-                    +"id='product_"+data[i]["fields"]["code"]+"' "
+                    +"id='product_"+data[i]["code"]+"' "
                     +"data-bs-toggle='modal' data-bs-target='#modal_add_product' "
-                    +"onclick=complete_add_modal("+data[i]["fields"]["code"] +")>"
-                    +"<b> "+(i+1)+". </b>"+data[i]["fields"]["name"]
+                    +"onclick=complete_add_modal("+data[i]["code"] +")>"
+                    +"<b> "+(i+1)+". </b>"+data[i]["name"]
                     +"</button>" 
                     $('#list_product').append(item)
                     $('#list_product').addClass('border-2 border-bottom')
@@ -82,12 +82,12 @@ function list_product(id_category){
 /*Cambia dinamicamnete el contenido del modal que añade el detalle de pedido */
 function complete_add_modal(code_product){
     for(let i=0; i < query_data.length; i++){
-        if(query_data[i]['fields']['code'] == code_product){
+        if(query_data[i]['code'] == code_product){
             $('#btn_decrease_quantity').prop("disabled",true);
             $('#quantity').val('');
             $('#order_comment').val('');
-            $('#name_product').text(query_data[i]['fields']['name']);
-            product = query_data[i]['fields']
+            $('#name_product').text(query_data[i]['name']);
+            product = query_data[i]
             $('#btn_modal_product').attr('onclick','add_order_detail()')
             break;
         }
@@ -116,12 +116,12 @@ function add_order_detail(){
     $('#quantity').val('');
     $('#order_comment').val('');
     $('#btn_modal_product').prop('disabled',true).removeAttr('onclick');
+    console.log(detail_order)
     
 }
 
 /** Funcion completa el modal pareditar el detalle de orden */
 function complete_edit_modal(code_product){
-
     for(let i=0; i < detail_order.length; i++){
         if(detail_order[i]['code'] == code_product){
             $('#btn_decrease_quantity').prop("disabled",false);
@@ -134,9 +134,7 @@ function complete_edit_modal(code_product){
             break;
         }
     }
-
 }
-/**Funcion que edita la lista de detalle de orden en sus parametros cantidad y comentarios */
 function edit_order_detail(indice){
     let quantity_product = parseInt($('#quantity').val())
     if(quantity_product != detail_order[indice]['quantity_product']){
@@ -178,3 +176,31 @@ function add_order(table){
     });
 }
 
+
+//Edicion de la orden de producto
+
+function get_detail_order(pk, code){
+    let bandera = false
+    for(let i=0; i < detail_order.length; i++){
+        if(parseInt(detail_order[i]['code']) == code ){
+            complete_edit_modal(code)
+            $('#modal_add_product').modal('show');
+            bandera = true
+            break;
+        }
+    }
+    if (!bandera){
+        $.ajax({
+            data : {'pk':pk},
+            url : '/order/get-detail',
+            type : 'GET',
+            success: function(response){
+                detail_order.push(response)
+                complete_edit_modal(response['code'])
+                $('#modal_add_product').modal('show');
+                console.log(detail_order)
+            }
+        })
+    }
+    
+}
