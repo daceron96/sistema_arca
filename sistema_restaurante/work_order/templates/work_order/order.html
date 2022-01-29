@@ -48,7 +48,7 @@
 				<li class="list-group-item text-end" id='total_price'>
 					<h6><b>Total: </b>${{order.total_price | intcomma}}</h6>
 				</li>
-				<button type="button" class="btn btn-outline-primary" onclick="add_order({{table}})"><i class="bi bi-send-plus-fill"></i> Enviar</button>
+				<button type="button" class="btn btn-outline-primary" onclick="update_order({{order.pk}})"><i class="bi bi-send-plus-fill"></i> Enviar</button>
 			</ul>
 			{%else%}
 			<ul class="list-group list-group-flush pt-2 border-2 border-top	visually-hidden" id="footer_order_list">
@@ -60,6 +60,7 @@
 		</div>
 	</div>
 </div>
+
 <!--MODAL  agregar producto -->
 <div class="modal fade" id="modal_add_product" tabindex="-1" aria-labelledby="modal_add_product_Label" aria-hidden="true">
 	<div class="modal-dialog ">
@@ -88,12 +89,36 @@
 			<div class="modal-footer" >
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
 				<button type="button" class="btn btn-danger visually-hidden" data-bs-dismiss="modal" id='btn_del_product' disabled>Eliminar</button>
+				{% if order %}
+				<button type="button" class="btn btn-warning " data-bs-dismiss="modal" id='cancel_detail' >Cancelar</button>
+				{% endif %}
 				<button type="button" class="btn btn-primary" id="btn_modal_product"  data-bs-dismiss="modal" disabled>Añadir</button>
 			</div>
 		</div>
 	</div>
 </div>
 
+<!---Modal confirmacion cancelar detalle de orden -->
+<div class="modal fade" id="modal_confirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-body text-center">
+                <h5>¿Deseas cancelar?</h5>
+                <p>Estas seguro que deseas cancelar el producto</p>
+                <h6 id="name_product_confirm"></h6>
+				<div class="mb-3">
+					<textarea class="form-control" id="comment_cancel" rows="3"  required placeholder='Describa el motivo de la cancelacion del producto'></textarea>
+				</div>
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+                <button type="button" id='btn_confirm_cancel' class="btn btn-lg btn-link link-danger fs-6 text-decoration-none col-6 m-0 rounded-0 border-right border-end " ><strong>Si, Cancelar</strong></button>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">No gracias</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 {% endblock%}
 

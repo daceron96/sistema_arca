@@ -164,6 +164,7 @@ function add_order(table){
     $.ajax({
         
         data : {'data' : JSON.stringify(detail_order),
+                'total_price' : JSON.stringify(detail_order.total_price),
                 'table':table, 
             },
         url: '/order/create/',
@@ -176,8 +177,24 @@ function add_order(table){
     });
 }
 
+function update_order(id_order){
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    $.ajax({
+        
+        data : {'data' : JSON.stringify(detail_order),
+                'total_price' : JSON.stringify(detail_order.total_price),
+            },
+        url: '/order/update-order/'+id_order+'/',
+        type : 'POST',
+        headers: {'X-CSRFToken': csrftoken},        
+        success: function(){
+            window.location =  "/order/table-list"
+        }
 
-//Edicion de la orden de producto
+    });
+}
+
+
 
 function get_detail_order(pk, code){
     let bandera = false
@@ -197,10 +214,38 @@ function get_detail_order(pk, code){
             success: function(response){
                 detail_order.push(response)
                 complete_edit_modal(response['code'])
+                $('#cancel_detail').attr('onclick',"cancellation_confirmation("+response['code']+")")
                 $('#modal_add_product').modal('show');
-                console.log(detail_order)
+
             }
         })
     }
     
+}
+
+function cancel_detail(position){
+    const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    $.ajax({
+        data : {'comment': $('#comment_cancel').val()},
+        url : '/order/cancel-detail/'+detail_order[position]['id_detail']+'/',
+        type : 'POST',
+        headers: {'X-CSRFToken': csrftoken},        
+        success: function(response){
+            del_order_detail(position)
+            $('#modal_confirm').modal('hide');
+        }
+    })
+}
+
+function cancellation_confirmation(code){
+   
+    for(var i=0; i < detail_order.length; i++){
+        if(detail_order[i]['code'] == code){
+            $('#name_product_confirm').text(detail_order[i]['name'])
+            break;
+        }
+    }
+    $('#btn_confirm_cancel').attr('onclick',"cancel_detail("+i+")")
+    $('#modal_confirm').modal('show');
+
 }
