@@ -1,3 +1,5 @@
+from shutil import _ntuple_diskusage
+from xml.etree.ElementTree import Comment
 from django.db import models
 from django.db.models.deletion import SET_NULL
 from product.models import Product
@@ -14,6 +16,7 @@ class Order(models.Model):
     total_price = models.IntegerField(default=0)
     table = models.ForeignKey(Table,on_delete=SET_NULL, null = True)
     status = models.BooleanField(default=True)
+    comment = models.TextField(max_length=0, blank = True)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
     def __srt__(self):

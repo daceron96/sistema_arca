@@ -150,8 +150,24 @@ class GetOrderDetail(ListView):
             response = JsonResponse({
                 'data': list_detail_order,
                 'id_order' : detail.order.id,
-                'total_price' : detail.order.total_price
+                'total_price' : detail.order.total_price,
+                'table' : detail.order.table.table_number
             })
             
             return response     
-        
+
+class CancelOrderView(UpdateView):
+    model = Order
+    fields = '__all__'
+
+    def post(self, *args, **kwargs):
+        if self.request.is_ajax():
+            order = self.get_object()
+            order.comment = self.request.POST['comment']
+            order.status = False
+            order.save()
+            table = order.table
+            table.status= False
+            table.save()
+        response = JsonResponse({'menssaje':'mensaje'})
+        return response    

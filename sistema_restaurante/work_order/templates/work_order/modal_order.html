@@ -1,31 +1,58 @@
-<!--MODAL-->
-<div class="modal fade" id="modal_description_order" tabindex="-1" aria-labelledby="modal_description_order"
-    aria-hidden="true">
-    <div class="modal-dialog ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="num_order"></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <table class="table ">
-                    <thead>
-                        <tr>
-                            <th> # </th>
-                            <th>Producto</th>
-                            <th>Cant.</th>
-                            <th>Valor total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="body_modal">
 
-                    </tbody>
-                </table>
-                
+<!--MODAL  agregar producto -->
+<div class="modal fade" id="modal_add_product" tabindex="-1" aria-labelledby="modal_add_product_Label" aria-hidden="true">
+	<div class="modal-dialog ">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title " id="name_product"></h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body ">
+				<div class="container-fluid">
+						<div class="row col-md-5 mx-auto">
+							<h6 class="text-center">Cantidad</h6>
+							<div class="input-group"  >
+								<button class="btn btn-primary" type="button" id="btn_decrease_quantity"onclick="decrease_quantity()" disabled><i class="bi bi-dash-circle"></i></button>
+								<input id="quantity" type="number" id="quantity" min="0" class="form-control" placeholder="0" style="text-align: center" disabled>
+								<button class="btn btn-primary" type="button" id="btn_increase_quantity" onclick="increase_quantity()"><i class="bi bi-plus-circle"></i></button>
+							</div>
+						</div> 
+						<div class="form-floating mt-4">
+							<textarea class="form-control" placeholder="Leave a comment here" id="order_comment" rows="5" style="height: initial;"></textarea>
+							<label for="order_comment">Comentarios</label>
+						</div>
+				</div>
+
+			</div>
+			<div class="modal-footer" >
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				<button type="button" class="btn btn-danger visually-hidden" data-bs-dismiss="modal" id='btn_del_product' disabled>Eliminar</button>
+				{% if order %}
+				<button type="button" class="btn btn-warning " data-bs-dismiss="modal" id='cancel_detail' >Cancelar</button>
+				{% endif %}
+				<button type="button" class="btn btn-primary" id="btn_modal_product"  data-bs-dismiss="modal" disabled>Añadir</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!---Modal confirmacion cancelar detalle de orden -->
+<div class="modal fade" id="modal_confirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-body text-center">
+                <h5>¿Deseas cancelar?</h5>
+                <p>Estas seguro que deseas cancelar el producto</p>
+                <h6 id="name_product_confirm"></h6>
+				<div class="mb-3">
+					<textarea class="form-control" id="comment_cancel" rows="3"  required placeholder='Describa el motivo de la cancelacion del producto'></textarea>
+				</div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <a href='#' id='btn_upd' type="button" class="btn btn-primary">Editar orden</a>
+            <div class="modal-footer flex-nowrap p-0">
+                <button type="button" id='btn_confirm_cancel' class="btn btn-lg btn-link link-danger fs-6 text-decoration-none col-6 m-0 rounded-0 border-right border-end " ><strong>Si, Cancelar</strong></button>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">No gracias</button>
             </div>
         </div>
     </div>

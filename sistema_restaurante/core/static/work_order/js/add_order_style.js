@@ -112,11 +112,10 @@ function add_order_detail(){
     detail_order.total_price = detail_order.total_price + (quantity * parseInt(product['sale_price']))
     product = []
     $('#total_price').empty().append("<h6><b>Total: </b>"+detail_order.total_price+"</h6>")
-    $('#footer_order_list').removeClass('visually-hidden')
+    $('#btn_send_order').removeClass('disabled')
     $('#quantity').val('');
     $('#order_comment').val('');
     $('#btn_modal_product').prop('disabled',true).removeAttr('onclick');
-    console.log(detail_order)
     
 }
 
@@ -154,8 +153,8 @@ function del_order_detail(indice){
     detail_order.total_price = detail_order.total_price - parseInt(detail_order[indice]['sale_price']) * parseInt(detail_order[indice]['quantity_product'])
     detail_order.splice(indice,1)
     $('#total_price').empty().append("<h6><b>Total: </b>"+detail_order.total_price+"</h6>")
-    if(detail_order.length == 0){
-        $('#footer_order_list').addClass('visually-hidden');
+    if(detail_order.total_price == 0){
+        $('#btn_send_order').addClass('disabled');
     }
 }
 

@@ -1,0 +1,56 @@
+<!--MODAL-->
+<div class="modal fade" id="modal_description_order" tabindex="-1" aria-labelledby="modal_description_order"
+    aria-hidden="true">
+    <div class="modal-dialog ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title col-8" id="num_order"></h5>
+                <h5 class='modal-title col' ><span class="badge bg-info text-dark text-white px-3" id='num_table'></span> </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-bottom  border-secondary">
+                <table class="table ">
+                    <thead >
+                        <tr>
+                            <th> # </th>
+                            <th>Producto</th>
+                            <th>Cant.</th>
+                            <th>Valor total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="body_modal">
+
+                    </tbody>
+                </table>
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class=" btn btn-outline-secondary" data-bs-dismiss="modal"><i class="bi bi-file-earmark-excel"></i> Cerrar</button>
+                <button type="button" id='btn_cancel_order' class=" btn btn-outline-danger" data-bs-dismiss="modal"><i class="bi bi-trash "></i> Cancelar</button>
+                <a href='#' id='btn_upd' type="button" class="btn btn-outline-primary"><i class="bi bi-pencil-square"></i> Editar</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!--modal confirmacion de cancelacion de orden-->
+<div class="modal fade" id="modal_confirm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-body text-center">
+                {% csrf_token %}
+                <h5>¿Deseas cancelar?</h5>
+                <p>Estas seguro que deseas cancelar la orden</p>
+                <h6 id="num_orden"></h6>
+				<div class="mb-3">
+					<textarea class="form-control" id="comment_cancel" rows="3"  required placeholder='Describa el motivo de la cancelacion de la orden de pedido'></textarea>
+				</div>
+            </div>
+            <div class="modal-footer flex-nowrap p-0">
+                <button type="button" id='btn_confirm_cancel' class="btn btn-lg btn-link link-danger fs-6 text-decoration-none col-6 m-0 rounded-0 border-right border-end " ><strong>Si, Cancelar</strong></button>
+                <button type="button" class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0" data-bs-dismiss="modal">No gracias</button>
+            </div>
+        </div>
+    </div>
+</div>

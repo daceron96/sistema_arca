@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import AddOrderView,TableListView, GetOrderDetail,GetProductList, GetDetail
-from .views import CreateOrderView, UpdateOrderView, CancelDetailView
+from .views import CreateOrderView, UpdateOrderView, CancelDetailView,CancelOrderView
 
 work_order_patterns = ([    
     #path order
@@ -8,6 +8,7 @@ work_order_patterns = ([
     path('new-order/<int:table>/',AddOrderView.as_view(), name='order'),
     path('update-order/<int:pk>/',UpdateOrderView.as_view(), name='update_order'),
     path('cancel-detail/<int:pk>/',CancelDetailView.as_view(), name='cancel_detail'),
+    path('cancel-order/<int:pk>/',CancelOrderView.as_view(), name='cancel_order'),
     
     
     #PATH GETS json
