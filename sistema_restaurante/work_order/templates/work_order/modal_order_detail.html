@@ -45,7 +45,10 @@
                 <h6 id="num_orden"></h6>
 				<div class="mb-3">
 					<textarea class="form-control" id="comment_cancel" rows="3"  required placeholder='Describa el motivo de la cancelacion de la orden de pedido'></textarea>
-				</div>
+                    <div class="invalid-feedback">
+                        La descripccion debe tener almenos 10 caracteres
+                    </div>
+                </div>
             </div>
             <div class="modal-footer flex-nowrap p-0">
                 <button type="button" id='btn_confirm_cancel' class="btn btn-lg btn-link link-danger fs-6 text-decoration-none col-6 m-0 rounded-0 border-right border-end " ><strong>Si, Cancelar</strong></button>

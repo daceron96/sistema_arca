@@ -92,6 +92,7 @@ function complete_add_modal(code_product){
             break;
         }
     }
+    $('#cancel_detail').addClass('visually-hidden')
     $('#btn_modal_product').prop('disabled',true)
     $('#btn_del_product').addClass('visually-hidden').prop('disabled',true);
     
@@ -120,18 +121,24 @@ function add_order_detail(){
 }
 
 /** Funcion completa el modal pareditar el detalle de orden */
-function complete_edit_modal(code_product){
-    for(let i=0; i < detail_order.length; i++){
+function complete_edit_modal(code_product,bandera){
+    for(var i=0; i < detail_order.length; i++){
         if(detail_order[i]['code'] == code_product){
             $('#btn_decrease_quantity').prop("disabled",false);
             $('#name_product').text(detail_order[i]['name']);
             $('#quantity').val(detail_order[i]['quantity_product']);
             $('#order_comment').val(detail_order[i]['comment']);
             $('#btn_modal_product').prop('disabled',false);
-            $('#btn_del_product').removeClass('visually-hidden').attr('onclick','del_order_detail('+i+')').prop('disabled',false)
             $('#btn_modal_product').attr('onclick','edit_order_detail('+i+')')
             break;
         }
+    }
+    if(bandera){
+        $('#cancel_detail').removeClass('visually-hidden')
+        $('#btn_del_product').addClass('visually-hidden')
+    }else{
+        $('#cancel_detail').addClass('visually-hidden')
+        $('#btn_del_product').removeClass('visually-hidden').attr('onclick','del_order_detail('+i+')').prop('disabled',false)
     }
 }
 function edit_order_detail(indice){
@@ -199,7 +206,7 @@ function get_detail_order(pk, code){
     let bandera = false
     for(let i=0; i < detail_order.length; i++){
         if(parseInt(detail_order[i]['code']) == code ){
-            complete_edit_modal(code)
+            complete_edit_modal(code,true)
             $('#modal_add_product').modal('show');
             bandera = true
             break;
@@ -212,7 +219,7 @@ function get_detail_order(pk, code){
             type : 'GET',
             success: function(response){
                 detail_order.push(response)
-                complete_edit_modal(response['code'])
+                complete_edit_modal(response['code'],true)
                 $('#cancel_detail').attr('onclick',"cancellation_confirmation("+response['code']+")")
                 $('#modal_add_product').modal('show');
 

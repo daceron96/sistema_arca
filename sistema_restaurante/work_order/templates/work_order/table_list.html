@@ -19,13 +19,13 @@
             {% for order in order_list %}
             {% if order.table == table %}
 
-            <div class="card-body bg-warning ">
-                <a href='' class="stretched-link link-light" onclick='get_order({{order.id}})' style="text-decoration:none" data-bs-toggle="modal" data-bs-target="#modal_description_order"><b>Mesa {{table.table_number}}</b></a>
+            <div class="card-body bg-warning " id='table_{{table.table_number}}'>
+                <a href='/' class="stretched-link link-light" onclick='get_order({{order.id}})' style="text-decoration:none" data-bs-toggle="modal" data-bs-target="#modal_description_order"><b>Mesa {{table.table_number}}</b></a>
             </div>
             {% endif %}
             {% endfor%}
             {% else %}
-            <div class="card-body bg-primary ">
+            <div class="card-body bg-primary " id='table_{{table.table_number}}'>
                 <a href="{% url 'order:order' table.table_number %}" class="stretched-link link-light" style="text-decoration:none" ><b>Mesa {{table.table_number}}</b></a>
             </div>
             {% endif%}

@@ -37,13 +37,25 @@ function cancellation_confirmation(id_order){
 
 function cancel_order(id_order){
     const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-    $.ajax({
-        data : {'comment': $('#comment_cancel').val()},
-        url : '/order/cancel-order/'+id_order+'/',
-        type : 'POST',
-        headers: {'X-CSRFToken': csrftoken},        
-        success: function(response){
-            $('#modal_confirm').modal('hide');
-        }
-    })
+    $('#comment_cancel').removeClass('is-invalid')
+    console.log($('#comment_cancel').val().length)
+    if($('#comment_cancel').val().length >= 10 ){
+        $.ajax({
+            data : {'comment': $('#comment_cancel').val()},
+            url : '/order/cancel-order/'+id_order+'/',
+            type : 'POST',
+            headers: {'X-CSRFToken': csrftoken},        
+            success: function(response){
+                
+                $('#table_'+response['table']).empty();
+                $('#table_'+response['table']).removeClass('bg-warning').addClass('bg-primary');
+                $('#table_'+response['table']).append(
+                    "<a href='/order/new-order/"+response['table']+"' class='stretched-link link-light' style='text-decoration:none' ><b>Mesa "+ response['table']+"</b></a>"
+                )                
+                $('#modal_confirm').modal('hide');
+            }
+        })
+    }else{
+        $('#comment_cancel').addClass('is-invalid')
+    }
 }

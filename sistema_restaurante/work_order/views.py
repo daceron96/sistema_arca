@@ -169,5 +169,5 @@ class CancelOrderView(UpdateView):
             table = order.table
             table.status= False
             table.save()
-        response = JsonResponse({'menssaje':'mensaje'})
+        response = JsonResponse({'table':table.table_number})
         return response    

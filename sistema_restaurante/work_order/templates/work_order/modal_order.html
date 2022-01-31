@@ -25,12 +25,12 @@
 
 			</div>
 			<div class="modal-footer" >
-				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-				<button type="button" class="btn btn-danger visually-hidden" data-bs-dismiss="modal" id='btn_del_product' disabled>Eliminar</button>
+				<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"><i class="bi bi-file-earmark-excel"></i> Cerrar</button>
+				<button type="button" class="btn btn-outline-danger visually-hidden" data-bs-dismiss="modal" id='btn_del_product' disabled><i class="bi bi-trash "></i> Eliminar</button>
 				{% if order %}
-				<button type="button" class="btn btn-warning " data-bs-dismiss="modal" id='cancel_detail' >Cancelar</button>
+				<button type="button" class="btn btn-outline-danger visually-hidden" data-bs-dismiss="modal" id='cancel_detail' ><i class="bi bi-x-circle"></i> Cancelar</button>
 				{% endif %}
-				<button type="button" class="btn btn-primary" id="btn_modal_product"  data-bs-dismiss="modal" disabled>Añadir</button>
+				<button type="button" class="btn btn-outline-primary" id="btn_modal_product"  data-bs-dismiss="modal" disabled><i class="bi bi-file-earmark-plus-fill"></i> Añadir</button>
 			</div>
 		</div>
 	</div>
