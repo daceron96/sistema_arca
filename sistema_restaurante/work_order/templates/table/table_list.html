@@ -3,8 +3,16 @@
 {% block title %}Lista de pedidos{% endblock title %}
 
 {% block content %}
-<div class="row pb-3 border-3 border-bottom">
-    <h1 class="text-center"><i class="bi bi-journal-bookmark-fill"></i> Lista de mesas</h1>
+<div class="row mb-4">
+    <div class="col-md-10">
+        <h1 class="text-center"><i class="bi bi-journal-bookmark-fill"></i> Lista de mesas</h1>
+    </div>
+    <div class="col-md-2">
+        <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modal_table" >
+			<i class="bi bi-file-earmark-plus"></i>
+			Añadir Mesa
+		</button>
+    </div>
 </div>
 <div class="row mt-4"> 
     {% for table in object_list %}
@@ -35,7 +43,8 @@
     {% endfor %}
     {{orders}}
 </div>
-{% include 'work_order/modal_order_detail.html' %}
+{% include 'table/modal_order_detail.html' %}
+{% include 'table/table_form.html' %}
 {% endblock content %}
 {% block js%}
 <script src="{% static '/work_order/js/table_list.js' %}"></script>

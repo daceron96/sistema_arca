@@ -126,6 +126,7 @@ class GetDetail(DetailView):
 # Mesas
 class TableListView(ListView):
     model = Table
+    template_name = 'table/table_list.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['order_list'] = Order.objects.filter(status=True, table__status = True)
@@ -171,3 +172,6 @@ class CancelOrderView(UpdateView):
             table.save()
         response = JsonResponse({'table':table.table_number})
         return response    
+    
+class CreateTableView(CreateView):
+    model = Table

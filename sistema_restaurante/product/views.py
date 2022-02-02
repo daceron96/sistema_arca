@@ -2,7 +2,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.list import ListView
 from .models import Product, Category
 from .forms import ProductForm, CategoryForm
-from django.http import JsonResponse, response
+from django.http import JsonResponse
 
 
 #PRODUCT VIEWS
