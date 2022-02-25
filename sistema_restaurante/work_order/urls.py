@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import AddOrderView,TableListView, GetOrderDetail,GetProductList, GetDetail
 from .views import CreateOrderView, UpdateOrderView, CancelDetailView,CancelOrderView
-from .views import CreateTableView, DeleteTableView
+from .views import CreateTableView
 work_order_patterns = ([    
     #path order
     path('create/',CreateOrderView.as_view(), name='create_order'),
@@ -19,6 +19,5 @@ work_order_patterns = ([
     #PATH TABLE
     path('table-list/', TableListView.as_view(), name ='table_list'),
     path('create-table/',CreateTableView.as_view(), name='create_table'),  
-    path('delete-table/<int:pk>/',DeleteTableView.as_view(), name='delete_table'),
       
 ],'order')

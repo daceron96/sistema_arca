@@ -197,12 +197,3 @@ class CreateTableView(CreateView):
                 response.status_code = 400
                 return response
 
-class DeleteTableView(DeleteView):
-    model = Table
-    def get(self, *args, **kwargs):
-        self.object = self.get_object()
-        table_number = self.object.table_number
-        self.object.delete()    
-        response = JsonResponse({'table_number':table_number})
-        return response
-    

@@ -87,21 +87,6 @@ function create_table() {
         }
     })
 }
-
-function delete_table(id_table) {
-    $.ajax({
-        url: '/order/delete-table/' + id_table + '/',
-        type: 'GET',
-        success: function(response) {
-            $('#modal_confirm').modal('hide');
-            $('#btn_confirm_delete').removeAttr('onclick')
-            $('#item_list_' + response['code']).remove();
-
-        }
-    })
-}
-
-
 function set_error_form(error) {
     let errors = Object.keys(error.responseJSON.error)
     $('.is-invalid').removeClass('is-invalid')
