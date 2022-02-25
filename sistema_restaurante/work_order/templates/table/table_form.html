@@ -8,25 +8,28 @@
             </div>
             <div class="modal-body ">
                 <div class="container-fluid ">
-                    <form action="{% url 'product:create_product'%}" method="POST" id="form_product" autocomplete='off'>
-                        <div class="mb-3 row">
-                            <div class="col-md-4">
-                                <label for="num_table" class="col-form-label">
-                                    <b>Número de mesa</b>
-                                </label>
+                    <form action="{% url 'order:create_table'%}" method="POST" id="form_table" autocomplete='off'>
+                        {% csrf_token %} 
+                        {% for field in form %}
+                        <div class="mb-3 row ">
+                            <div class="col-md-3 ">
+                                <label for="{{ field.id_for_label }} " class="col-form-label "><b>{{field.label}}</b>
+								</label>
                             </div>
-                            <div class="col-sm-8">
-                                <input type="number" name="num_table" class="form-control" placeholder="Número de mesa"  id="num_table">
-                                <div class="invalid-feedback " id="invalid_code">
+                            <div class="col-sm-9 ">
+                                {{field}}
+                                <div class="invalid-feedback " id="invalid_{{field.name}}">
                                 </div>
                             </div>
                         </div>
+
+                        {% endfor %}
                     </form>
                 </div>
             </div>
             <div class="modal-footer ">
                 <button type="button " class="btn btn-outline-danger " data-bs-dismiss="modal"><i class="bi bi-file-earmark-x-fill"></i> Cancelar</button>
-                <button type="button " class="btn btn-outline-primary " id='btn_add' onclick="create_product()"><i class="bi bi-file-earmark-plus-fill"></i> Guardar</button>
+                <button type="button " class="btn btn-outline-primary " id='btn_add' onclick="create_table()"><i class="bi bi-file-earmark-plus-fill"></i> Guardar</button>
                 <button type="button " class="btn btn-outline-primary visually-hidden" id='btn_upd'><i class="bi bi-file-earmark-plus-fill"></i> Actualizar</button>
             </div>
         </div>

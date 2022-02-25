@@ -5,8 +5,8 @@ from django.db.models.deletion import SET_NULL
 from product.models import Product
 
 class Table(models.Model):
-    table_number = models.IntegerField()
-    status = models.BooleanField()
+    table_number = models.IntegerField(unique=True)
+    status = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.table_number)

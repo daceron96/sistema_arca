@@ -2,11 +2,11 @@ import json
 from django.http.response import HttpResponse, JsonResponse
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView,DeleteView
 from django.views.generic.list import ListView
 from .models import Order, Order_Detail, Table
 from product.models import Category, Product
-
+from .forms import TableForm
 
 # carga la vista principal ara agregar una nueva orden
 
@@ -130,6 +130,7 @@ class TableListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['order_list'] = Order.objects.filter(status=True, table__status = True)
+        context['form'] = TableForm
         return context
     
 class GetOrderDetail(ListView):
@@ -175,3 +176,33 @@ class CancelOrderView(UpdateView):
     
 class CreateTableView(CreateView):
     model = Table
+    form_class = TableForm
+    def post(self,  *args, **kwargs):
+        if self.request.is_ajax():
+            form = self.form_class(self.request.POST)
+            if form.is_valid():
+                table = self.model.objects.create(
+                    table_number = form.cleaned_data.get('table_number'),
+                )
+                response = JsonResponse({
+                    'table_number':table.table_number,
+                    
+                })
+                response.status_code = 201
+                return response
+            
+            else:
+                error = form.errors
+                response = JsonResponse({'error':error})
+                response.status_code = 400
+                return response
+
+class DeleteTableView(DeleteView):
+    model = Table
+    def get(self, *args, **kwargs):
+        self.object = self.get_object()
+        table_number = self.object.table_number
+        self.object.delete()    
+        response = JsonResponse({'table_number':table_number})
+        return response
+    
