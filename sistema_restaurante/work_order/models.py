@@ -19,6 +19,8 @@ class Order(models.Model):
     comment = models.TextField(max_length=0, blank = True)
     created = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated = models.DateTimeField(auto_now=True, verbose_name="Fecha de edición")
+    class Meta:
+        ordering = ['-created']
     def __srt__(self):
         return self.pk
 

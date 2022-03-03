@@ -18,6 +18,7 @@ from django.urls import path, include
 from product.urls import product_patterns
 from core.urls import core_patterns
 from work_order.urls import work_order_patterns
+from cash_management.urls import cash_management_patterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path core
@@ -29,5 +30,6 @@ urlpatterns = [
     #path work_order
     path('order/', include(work_order_patterns)),
     
-   
+   #path cash_management
+   path('cash/', include(cash_management_patterns)),
 ]

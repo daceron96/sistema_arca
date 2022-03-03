@@ -2,7 +2,7 @@ import json
 from django.http.response import HttpResponse, JsonResponse
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView,DeleteView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic.list import ListView
 from .models import Order, Order_Detail, Table
 from product.models import Category, Product
@@ -88,6 +88,11 @@ class CancelDetailView(UpdateView):
             order.save()
         response = JsonResponse({'menssaje':'mensaje'})
         return response    
+
+#---Listar ordenes activas ---
+class OrderListView(ListView):
+    model = Order
+    
 #---------------Vistas de consulta----------------------
 class GetProductList(ListView):
     model = Product

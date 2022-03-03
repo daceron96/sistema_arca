@@ -1,0 +1,44 @@
+{% extends 'core/base.html' %} 
+{% block title %}
+Lista de ordenes
+{% endblock%}
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-10">
+        <h1 class="text-center"><i class="bi bi-journal-bookmark-fill"></i> Lista de ordenes en curso</h1>
+    </div>
+    
+</div>
+<div class="row mt-4"> 
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th scope="col"># Orden</th>
+                <th scope="col"># Mesa</th>
+                <th scope="col">fecha de registro</th>
+                <th scope="col">Total</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for order in object_list %}
+            <tr>
+                <td>{{order.pk}}</td>
+                <td>{{order.table.table_number}}</td>
+                <td>{{order.updated}}</td>
+                <td>{{order.total_price}}</td>
+                {% if order.status %}
+                <td> <span class="badge bg-warning p-2 ">Pendiente</span></td>
+                {% else %}
+                <td><span class="badge bg-success p-2  ">Pagada</span></td>
+                {% endif %}
+                <td>
+                    <button type="button" class="btn btn-outline-secondary btn-sm" ><i class="bi bi-pencil "></i> Editar</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock content %}
