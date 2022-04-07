@@ -89,9 +89,13 @@ class CancelDetailView(UpdateView):
         response = JsonResponse({'menssaje':'mensaje'})
         return response    
 
-#---Listar ordenes activas ---
+#---Listar ordenes  ---
 class OrderListView(ListView):
     model = Order
+    def get_queryset(self):
+        return self.model.objects.filter(status = True)
+    
+    template_name = 'cash_register/order_list.html'
     
 #---------------Vistas de consulta----------------------
 class GetProductList(ListView):
@@ -111,6 +115,9 @@ class GetProductList(ListView):
                 list_product.append(item)
             data = json.dumps(list_product)
             return HttpResponse(data,'application/json')
+
+
+#----------------------Vista  de orden pedido ------------- #
 #Editar orden de pedido
 
 class GetDetail(DetailView):
@@ -128,16 +135,6 @@ class GetDetail(DetailView):
                 'id_detail' : detail.pk
                 })
         
-# Mesas
-class TableListView(ListView):
-    model = Table
-    template_name = 'table/table_list.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['order_list'] = Order.objects.filter(status=True, table__status = True)
-        context['form'] = TableForm
-        return context
-    
 class GetOrderDetail(ListView):
     model = Order_Detail
 
@@ -161,8 +158,8 @@ class GetOrderDetail(ListView):
                 'table' : detail.order.table.table_number
             })
             
-            return response     
-
+            return response   
+          
 class CancelOrderView(UpdateView):
     model = Order
     fields = '__all__'
@@ -177,7 +174,21 @@ class CancelOrderView(UpdateView):
             table.status= False
             table.save()
         response = JsonResponse({'table':table.table_number})
-        return response    
+        return response   
+    
+    
+#---------------- Vista de mesas --------- #
+class TableListView(ListView):
+    model = Table
+    template_name = 'table/table_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order_list'] = Order.objects.filter(status=True, table__status = True)
+        context['form'] = TableForm
+        return context
+    
+
+ 
     
 class CreateTableView(CreateView):
     model = Table

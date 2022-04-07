@@ -1,4 +1,5 @@
 {% extends 'core/base.html' %} 
+{% load humanize %}
 {% block title %}
 Lista de ordenes
 {% endblock%}
@@ -27,7 +28,7 @@ Lista de ordenes
                 <td>{{order.pk}}</td>
                 <td>{{order.table.table_number}}</td>
                 <td>{{order.updated}}</td>
-                <td>{{order.total_price}}</td>
+                <td>$ {{order.total_price | intcomma}}</td>
                 {% if order.status %}
                 <td> <span class="badge bg-warning p-2 ">Pendiente</span></td>
                 {% else %}
