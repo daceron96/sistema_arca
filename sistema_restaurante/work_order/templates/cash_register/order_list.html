@@ -1,5 +1,6 @@
 {% extends 'core/base.html' %} 
 {% load humanize %}
+{% load static %}
 {% block title %}
 Lista de ordenes
 {% endblock%}
@@ -35,11 +36,25 @@ Lista de ordenes
                 <td><span class="badge bg-success p-2  ">Pagada</span></td>
                 {% endif %}
                 <td>
-                    <button type="button" class="btn btn-outline-secondary btn-sm" ><i class="bi bi-pencil "></i> Editar</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm" onclick='get_order({{order.id}})' data-bs-toggle="modal" data-bs-target="#modal_description_order"><i class="bi bi-search"></i> Ver</button>
+                
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+{% include 'table/modal_order_detail.html' %}
+{% include 'cash_register/modal_cancel.html' %}
+{% include 'cash_register/modal_register_order.html' %}
 {% endblock content %}
+
+{% block js %}
+<script src="{% static '/work_order/js/order_management.js' %}"></script>
+<script>
+    $('#btn_cancel_order').removeClass('visually-hidden')
+    $('#btn_register').removeClass('visually-hidden')
+    $('#btn_register').removeClass('visually-hidden')
+    $('#btn_upd').addClass('visually-hidden')
+</script>
+{% endblock %}

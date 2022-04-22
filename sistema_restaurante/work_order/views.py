@@ -132,7 +132,7 @@ class GetDetail(DetailView):
                 'sale_price' : detail.product.sale_price,
                 'quantity_product' : detail.quantity_product,
                 'comment' : detail.comment,
-                'id_detail' : detail.pk
+                'id_detail' : detail.pk,
                 })
         
 class GetOrderDetail(ListView):
@@ -155,7 +155,7 @@ class GetOrderDetail(ListView):
                 'data': list_detail_order,
                 'id_order' : detail.order.id,
                 'total_price' : detail.order.total_price,
-                'table' : detail.order.table.table_number
+                'table' : detail.order.table.table_number,
             })
             
             return response   

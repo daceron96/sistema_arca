@@ -19,9 +19,10 @@ function get_order(id_order) {
                     "<td> " + (parseInt(response.data[detail]['sale_price']) * parseInt(response.data[detail]['quantity_product'])) + "</td>" +
                     "</tr>"
                 )
-                $('#btn_upd').attr('href', '/order/update-order/' + response['id_order'])
-                $('#btn_cancel_order').attr('onclick', "cancellation_confirmation(" + response['id_order'] + ")")
             }
+            $('#btn_upd').attr('href', '/order/update-order/' + response['id_order'])
+            $('#btn_cancel_order').attr('onclick', "cancellation_confirmation(" + response['id_order'] + ")")
+            
 
         }
     })
